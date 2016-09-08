@@ -178,6 +178,15 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Third party Service Providers
+         */
+        Prettus\Repository\Providers\RepositoryServiceProvider::class,  //仓库
+        Laracasts\Generators\GeneratorsServiceProvider::class,          //生成器
+        Bican\Roles\RolesServiceProvider::class,                        //角色权限
+        Barryvdh\Debugbar\ServiceProvider::class,                       //debugbar调试
+
+
     ],
 
     /*
