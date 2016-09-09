@@ -15,4 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::
+Route::group([], function(){
+	
+});

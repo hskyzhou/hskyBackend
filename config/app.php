@@ -185,8 +185,7 @@ return [
         Laracasts\Generators\GeneratorsServiceProvider::class,          //生成器
         Bican\Roles\RolesServiceProvider::class,                        //角色权限
         Barryvdh\Debugbar\ServiceProvider::class,                       //debugbar调试
-
-
+        Yajra\Datatables\DatatablesServiceProvider::class,              //datatables
     ],
 
     /*
