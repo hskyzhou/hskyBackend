@@ -19,5 +19,4 @@ Route::get('/', function () {
 $router->group(['namespace' => 'Backend', 'middleware' => ['web', 'menu.permission']], function($router){
 	// 权限路由
 	require(__DIR__ . '/backend/permissionRoute.php');
-	
 });

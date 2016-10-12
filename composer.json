@@ -9,7 +9,8 @@
         "laravel/framework": "5.3.*",
         "prettus/l5-repository": "^2.6",
         "barryvdh/laravel-debugbar": "^2.2",
-        "laracasts/presenter": "^0.2.1"
+        "laracasts/presenter": "^0.2.1",
+        "yajra/laravel-datatables-oracle": "~6.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
