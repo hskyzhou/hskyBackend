@@ -15,4 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::
+/*后台功能*/
+$router->group(['namespace' => 'Backend', 'middleware' => ['web', 'menu.permission']], function($router){
+	// 权限路由
+	require(__DIR__ . '/backend/permissionRoute.php');
+	
+});
