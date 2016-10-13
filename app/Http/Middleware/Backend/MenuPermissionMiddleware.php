@@ -17,6 +17,7 @@ class MenuPermissionMiddleware
         /*获取路由别名*/
         $routeName = $request->route()->getName();
 
+        dd($routeName);
 
         return $next($request);
     }
