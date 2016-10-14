@@ -183,7 +183,7 @@ return [
          */
         Prettus\Repository\Providers\RepositoryServiceProvider::class,  //仓库
         Laracasts\Generators\GeneratorsServiceProvider::class,          //生成器
-        Bican\Roles\RolesServiceProvider::class,                        //角色权限
+        GeniusTS\Roles\RolesServiceProvider::class,                     //角色权限
         Barryvdh\Debugbar\ServiceProvider::class,                       //debugbar调试
         Yajra\Datatables\DatatablesServiceProvider::class,              //datatables
     ],
@@ -222,7 +222,7 @@ return [
         'Password' => Illuminate\Support\Facades\Password::class,
         'Queue' => Illuminate\Support\Facades\Queue::class,
         'Redirect' => Illuminate\Support\Facades\Redirect::class,
-        'Redis' => Illuminate\Support\Facades\Redis::class,
+        'LaraveRedis' => Illuminate\Support\Facades\Redis::class,
         'Request' => Illuminate\Support\Facades\Request::class,
         'Response' => Illuminate\Support\Facades\Response::class,
         'Route' => Illuminate\Support\Facades\Route::class,

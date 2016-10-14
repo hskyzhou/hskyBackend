@@ -23,7 +23,7 @@ class CreateMenusTable extends Migration
             $table->tinyInteger('status')->default(1)->comment('1-开启, 2-关闭');
             $table->string('desc')->comment('描述');
             $table->smallInteger('sort')->comment('排序');
-            $table->string('icon')->comment('图标')
+            $table->string('icon')->comment('图标');
 
             $table->timestamps();
         });

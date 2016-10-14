@@ -1,19 +1,18 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Eloquent;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Repositories\MenuRepository;
+use App\Contracts\Repositories\MenuRepository;
 use App\Entities\Menu;
 use App\Validators\MenuValidator;
 
 /**
  * Class MenuRepositoryEloquent
- * @package namespace App\Repositories;
+ * @package namespace App\Repositories\Eloquent;
  */
-class MenuRepositoryEloquent extends BaseRepository implements MenuRepository
-{
+class MenuRepositoryEloquent extends BaseRepository implements MenuRepository{
     /**
      * Specify Model class name
      *
