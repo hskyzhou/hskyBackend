@@ -8,6 +8,8 @@ use Closure;
 use App\Repositories\Eloquent\MenuRepositoryEloquent;
 use App\Repositories\Eloquent\PermissionRepositoryEloquent;
 
+use App\Repositories\Exceptions\NoPermissionException;
+
 /**
  * 访问菜单所需权限的中间件判断
  */
@@ -39,14 +41,19 @@ class MenuPermissionMiddleware{
         $menu = $this->menuRepo->findByField('route', $routeName)->first();
         $menuPermissions = $this->permissionRepo->menuPermissions($menu);
 
-        // dd($menuPermissions);
         /*获取用户拥有权限*/
         $user = getUser();
         $userPermissions = $this->permissionRepo->userPermissions($user);
 
         if(!$menuPermissions->isEmpty()){
             // foreach($)
-            dd($menuPermissions);
+            // dd($menuPermissions, $userPermissions);
+            foreach($menuPermissions as $key => $menuPermission){
+                if(!$userPermissions->contains($menuPermission)){
+                    // throw new \Exception('您没有' . $menuPermission . '权限');
+                    throw new NoPermissionException($menuPermission);
+                }
+            }
         }
 
         return $next($request);

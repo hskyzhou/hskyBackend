@@ -42,7 +42,7 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
             $menuId = $menu->id;
             $key = menuPermissionRedisKey($menuId);
             if(LaraveRedis::command('EXISTS', [$key])){
-                $menuPermissions = LaraveRedis::command('GET', [$key]);
+                $menuPermissions = collect(json_decode(LaraveRedis::command('GET', [$key]), true));
             }else{
                 $menuPermissions = $this->setMenuPermissions($menu);
             }
@@ -65,7 +65,7 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
         $menuPermission = $this->findByField('slug', $slug)->first();
         $prePermissions = $menuPermission->prePermissions()->get();
         $prePermissions->push($menuPermission);
-        $menuPermissions = $prePermissions->pluck('title', 'id');
+        $menuPermissions = $prePermissions->pluck('name', 'id');
 
         LaraveRedis::command('SET', [$key, $menuPermissions]);
 
@@ -80,7 +80,7 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
         /*redis key*/
         $key = userPermissionRedisKey($userId);
         if(LaraveRedis::command('EXISTS', [$key])){
-            $userPermissions = LaraveRedis::command('GET', [$key]);
+            $userPermissions = collect(json_decode(LaraveRedis::command('GET', [$key])));
         }else{
             /*set redis data*/
             $userPermissions = $this->setUserPermission($user);
@@ -101,7 +101,7 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
         $userId = $user->id;
         $key = userPermissionRedisKey($userId);
 
-        $userPermissions = $user->getPermissions()->pluck('title', 'id');
+        $userPermissions = $user->getPermissions()->pluck('name', 'id');
 
         LaraveRedis::command('SET', [$key, $userPermissions]);
 

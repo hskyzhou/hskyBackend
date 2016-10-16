@@ -34,14 +34,14 @@ return [
     |--------------------------------------------------------------------------
     |
     | If you want, you can replace default models from this package by models
-    | you created. Have a look at `Bican\Roles\Models\Role` model and
-    | `Bican\Roles\Models\Permission` model.
+    | you created. Have a look at `GeniusTS\Roles\Models\Role` model and
+    | `GeniusTS\Roles\Models\Permission` model.
     |
     */
 
     'models' => [
-        'role' => Bican\Roles\Models\Role::class,
-        'permission' => Bican\Roles\Models\Permission::class,
+        'role'       => GeniusTS\Roles\Models\Role::class,
+        'permission' => GeniusTS\Roles\Models\Permission::class,
     ],
 
     /*
@@ -60,8 +60,8 @@ return [
         'enabled' => false,
 
         'options' => [
-            'is' => true,
-            'can' => true,
+            'is'      => true,
+            'can'     => true,
             'allowed' => true,
         ],
 
