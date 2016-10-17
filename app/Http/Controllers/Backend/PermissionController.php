@@ -14,6 +14,6 @@ class PermissionController extends Controller{
     }
 
     public function index(){
-    	return 'aaa';
+    	return view('themes.metronic.permission.index');
     }
 }

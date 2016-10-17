@@ -31,12 +31,10 @@ class MenuPermissionMiddleware{
      * @return mixed
      */
     public function handle($request, Closure $next){  
-        $user = auth()->loginUsingId(1); 
-        // dd($user);
+        $user = auth()->loginUsingId(1);
         /*获取路由别名*/
         $routeName = $request->route()->getName();
 
-        // dd($routeName);
         /*获取菜单访问权限*/
         $menu = $this->menuRepo->findByField('route', $routeName)->first();
         $menuPermissions = $this->permissionRepo->menuPermissions($menu);
@@ -46,11 +44,8 @@ class MenuPermissionMiddleware{
         $userPermissions = $this->permissionRepo->userPermissions($user);
 
         if(!$menuPermissions->isEmpty()){
-            // foreach($)
-            // dd($menuPermissions, $userPermissions);
             foreach($menuPermissions as $key => $menuPermission){
                 if(!$userPermissions->contains($menuPermission)){
-                    // throw new \Exception('您没有' . $menuPermission . '权限');
                     throw new NoPermissionException($menuPermission);
                 }
             }

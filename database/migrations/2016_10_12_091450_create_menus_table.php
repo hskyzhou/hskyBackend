@@ -24,6 +24,7 @@ class CreateMenusTable extends Migration
             $table->string('desc')->comment('描述');
             $table->smallInteger('sort')->comment('排序');
             $table->string('icon')->comment('图标');
+            $table->string('position')->default('module')->comment('权限位置,module-控制进入页面,page-控制页面中按钮,查询等');
 
             $table->timestamps();
         });
