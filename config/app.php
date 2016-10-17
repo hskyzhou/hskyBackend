@@ -186,6 +186,7 @@ return [
         GeniusTS\Roles\RolesServiceProvider::class,                     //角色权限
         Barryvdh\Debugbar\ServiceProvider::class,                       //debugbar调试
         Yajra\Datatables\DatatablesServiceProvider::class,              //datatables
+        DaveJamesMiller\Breadcrumbs\ServiceProvider::class,             //Breadcrumb
     ],
 
     /*
@@ -233,6 +234,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        /*third party*/
+        'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
     ],
 
 ];

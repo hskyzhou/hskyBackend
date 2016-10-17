@@ -61,7 +61,8 @@
             @include('themes.metronic.common.theme')
             <!-- END THEME PANEL -->
             <!-- BEGIN PAGE BAR -->
-            @include('themes.metronic.common.breadcrumb')
+            {{-- @include('themes.metronic.common.breadcrumb') --}}
+            {!! Breadcrumbs::render() !!}
             <!-- END PAGE BAR -->
             <!-- BEGIN PAGE TITLE-->
             @yield('content')

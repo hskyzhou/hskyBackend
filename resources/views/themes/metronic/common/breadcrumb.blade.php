@@ -1,13 +1,18 @@
-<div class="page-bar">
-  <ul class="page-breadcrumb">
-      <li>
-          <a href="index.html">Home</a>
-          <i class="fa fa-circle"></i>
-      </li>
-      <li>
-          <span>Dashboard</span>
-      </li>
-  </ul>
-  <div class="page-toolbar">
+@if ($breadcrumbs)
+  <div class="page-bar">
+    <ul class="page-breadcrumb">
+      @foreach ($breadcrumbs as $breadcrumb)
+        @if (!$breadcrumb->last)
+          <li>
+            <a href="{{ $breadcrumb->url }}">{{ $breadcrumb->title }}</a>
+            <i class="fa fa-circle"></i>
+          </li>
+        @else
+          <li class="active">{{ $breadcrumb->title }}</li>
+        @endif
+      @endforeach
+    </ul>
+    <div class="page-toolbar">
+    </div>
   </div>
-</div>
+@endif
