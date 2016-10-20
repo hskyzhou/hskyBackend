@@ -13,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        /*菜单composer*/
+        view()->composer('*', \App\Composers\MenuComposer::class);
     }
 
     /**
