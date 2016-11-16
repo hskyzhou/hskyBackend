@@ -71,9 +71,17 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
 
         return $menuPermissions;
     }
+    /*============================================*/
 
 
-    /*获取用户权限*/
+    /*=============获取用户权限=========*/
+    /**
+     * 用户权限
+     * @param        
+     * @author      xezw211@gmail.com
+     * @date        2016-11-15 14:42:05
+     * @return        
+     */
     public function userPermissions($user = ''){
         $user = getUser($user);
         $userId = $user->id;
@@ -106,5 +114,33 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
         LaraveRedis::command('SET', [$key, $userPermissions]);
 
         return $userPermissions; 
+    }
+    /*============================================*/
+
+
+    /*获取所有权限*/
+    public function permissions(){
+        return $this->all();
+    }
+
+    /*权限管理列表*/
+    public function permissionsManage(){
+        $permissions = $this->permissions();
+        $returnData = [
+            'data' => [],
+            'relation' => [],
+        ];
+        if(!$permissions->isEmpty()){
+            foreach($permissions as $permission){
+                $slug = $permission->slug;
+                $slugs = explode('.', $slug);
+                if($slugs){
+                    $returnData['data'][$slugs[0]][$permission->position] = 1;
+                    $returnData['relation'][$slugs[0]] = $permission->module;
+                }
+            }
+        }
+
+        return $returnData;
     }
 }

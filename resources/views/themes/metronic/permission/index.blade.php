@@ -1,3 +1,4 @@
+@inject('presenter', 'App\ViewPresenters\Backend\PermissionViewPresenter')
 @extends('themes.metronic.common.layout')
 
 @section('css')
@@ -33,7 +34,8 @@
 		            	<div class="col-md-6 col-sm-6">
 										<div class="dd" id="nestable_list_1">
 										    <ol class="dd-list">
-										        <li class="dd-item dd3-item" data-id="1">
+										    		{!! $presenter->permissionsManage($permissionsManage) !!}
+										        {{-- <li class="dd-item dd3-item" data-id="1">
 										            <div class="dd-handle dd3-handle"></div>
 
 										            <div class="dd3-content"> 
@@ -91,7 +93,7 @@
 										        <li class="dd-item dd3-item" data-id="12">
 										            <div class="dd-handle dd3-handle"></div>
 						                    <div class="dd3-content"> Item 12 </div>
-										        </li>
+										        </li> --}}
 										    </ol>
 										</div>
 

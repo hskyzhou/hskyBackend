@@ -25,4 +25,9 @@
 
 			return $moduleName;
 		}
+
+		/*获取文件路径*/
+		public function getView($fileName){
+			return $this->folder . $fileName;
+		}
 	}
