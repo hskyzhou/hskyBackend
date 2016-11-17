@@ -14,132 +14,175 @@
 @endsection
 
 @section('content')
-	<!-- END PAGE TITLE-->
-	<!-- END PAGE HEADER-->
-	<!-- BEGIN DASHBOARD STATS 1-->
 
-	<!-- END DASHBOARD STATS 1-->
-	<div class="row">
-	    <div class="col-md-10 col-sm-10">
-	        <div class="portlet box red">
-	            <div class="portlet-title">
-	                <div class="caption">
-	                    <i class="fa fa-gift"></i>Unordered Lists </div>
-	                <div class="tools">
-	                    <a href="javascript:;" class="collapse"> </a>
-	                </div>
-	            </div>
-	            <div class="portlet-body">
-	            	<div class="row">
-		            	<div class="col-md-6 col-sm-6">
-										<div class="dd" id="nestable_list_1">
-										    <ol class="dd-list">
-										    		{!! $presenter->permissionsManage($permissionsManage) !!}
-										        {{-- <li class="dd-item dd3-item" data-id="1">
-										            <div class="dd-handle dd3-handle"></div>
-
-										            <div class="dd3-content"> 
-										            	<span class="content-class">Item 1 </span>
-																	<div class="pull-right actions">
-																		<a class="btn btn-xs green" style="padding:0 0; margin-bottom: 7px;"><i class="fa fa-plus"></i></a>
-																		<a class="btn btn-xs red" style="padding:0 0; margin-bottom: 7px;"><i class="fa fa-times"></i></a>
-																	</div>
-										            </div>
-										        </li>
-										        <li class="dd-item dd3-item" data-id="2">
-										            <div class="dd-handle dd3-handle"></div>
-										            <div class="dd3-content"> Item 2 </div>
-										            <ol class="dd-list">
-										                <li class="dd-item dd3-item" data-id="3">
-										                    <div class="dd-handle dd3-handle"></div>
-										                    <div class="dd3-content"> Item 3 </div>
-										                </li>
-										                <li class="dd-item dd3-item" data-id="4">
-										                    <div class="dd-handle dd3-handle"></div>
-										                    <div class="dd3-content"> Item 4 </div>
-										                </li>
-										                <li class="dd-item dd3-item" data-id="5">
-										                    <div class="dd-handle dd3-handle"></div>
-										                    <div class="dd3-content"> Item 5 </div>
-										                    <ol class="dd-list">
-										                        <li class="dd-item dd3-item" data-id="6">
-										                            <div class="dd-handle dd3-handle"></div>
-										                            <div class="dd3-content"> Item 6 </div>
-										                        </li>
-										                        <li class="dd-item dd3-item" data-id="7">
-										                            <div class="dd-handle dd3-handle"></div>
-										                            <div class="dd3-content"> Item 7 </div>
-										                        </li>
-										                        <li class="dd-item dd3-item" data-id="8">
-										                            <div class="dd-handle dd3-handle"></div>
-										                            <div class="dd3-content"> Item 8 </div>
-										                        </li>
-										                    </ol>
-										                </li>
-										                <li class="dd-item dd3-item" data-id="9">
-										                    <div class="dd-handle dd3-handle"></div>
-										                    <div class="dd3-content"> Item 9 </div>
-										                </li>
-										                <li class="dd-item dd3-item" data-id="10">
-										                    <div class="dd-handle dd3-handle"></div>
-										                    <div class="dd3-content"> Item 10 </div>
-										                </li>
-										            </ol>
-										        </li>
-										        <li class="dd-item dd3-item" data-id="11">
-										            <div class="dd-handle dd3-handle"></div>
-						                    <div class="dd3-content"> Item 11 </div>
-										        </li>
-										        <li class="dd-item dd3-item" data-id="12">
-										            <div class="dd-handle dd3-handle"></div>
-						                    <div class="dd3-content"> Item 12 </div>
-										        </li> --}}
-										    </ol>
-										</div>
-
-		            		{{-- <div class="dd" id="domenu">
-		            		  <button class="dd-new-item">+</button>
-		            		  <li class="dd-item dd3-item-blueprint">
-		            		    <button class="collapse" data-action="collapse" type="button" style="display: none;">–</button>
-		            		    <button class="expand" data-action="expand" type="button" style="display: none;">+</button>
-		            		    <div class="dd-handle dd3-handle dd3-handle">Drag</div>
-		            		    <div class="dd3-content">
-		            		      <span class="item-name">[item_name]</span>
-		            		      <div class="dd-button-container">
-		            		        <button class="item-add">+</button>
-		            		        <button class="item-remove" data-confirm-class="item-remove-confirm">&times;</button>
-		            		      </div>
-		            		      <div class="dd-edit-box" style="display: none;">
-		            		        <input type="text" name="title" autocomplete="off" placeholder="Item"
-		            		               data-placeholder="Any nice idea for the title?"
-		            		               data-default-value="doMenu List Item. {?numeric.increment}">
-		            		        <i class="end-edit">save</i>
-		            		      </div>
-		            		    </div>
-		            		  </li>
-		            		  <ol class="dd-list"></ol>
-		            		</div> --}}
-		            	</div>
-
-		            	<div class="col-md-6 col-sm-6">
-		            	   
-		            	</div>
-	            	</div>
-	            </div>
-	        </div>
-	    </div>
-	</div>
+<h3 class="page-title"> Ajax Datatables
+    <small>basic datatable samples</small>
+</h3>
+<!-- END PAGE TITLE-->
+<!-- END PAGE HEADER-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="note note-danger">
+            <p> NOTE: The below datatable is not connected to a real database so the filter and sorting is just simulated for demo purposes only. </p>
+        </div>
+        <!-- Begin: life time stats -->
+        <div class="portlet light portlet-fit portlet-datatable bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-settings font-dark"></i>
+                    <span class="caption-subject font-dark sbold uppercase">Ajax Datatable</span>
+                </div>
+                <div class="actions">
+                    <div class="btn-group btn-group-devided" data-toggle="buttons">
+                        <label class="btn btn-transparent grey-salsa btn-outline btn-circle btn-sm active">
+                            <input type="radio" name="options" class="toggle" id="option1">Actions</label>
+                        <label class="btn btn-transparent grey-salsa btn-outline btn-circle btn-sm">
+                            <input type="radio" name="options" class="toggle" id="option2">Settings</label>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn red btn-outline btn-circle" href="javascript:;" data-toggle="dropdown">
+                            <i class="fa fa-share"></i>
+                            <span class="hidden-xs"> Tools </span>
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href="javascript:;"> Export to Excel </a>
+                            </li>
+                            <li>
+                                <a href="javascript:;"> Export to CSV </a>
+                            </li>
+                            <li>
+                                <a href="javascript:;"> Export to XML </a>
+                            </li>
+                            <li class="divider"> </li>
+                            <li>
+                                <a href="javascript:;"> Print Invoices </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-container">
+                    <div class="table-actions-wrapper">
+                        <span> </span>
+                        <select class="table-group-action-input form-control input-inline input-small input-sm">
+                            <option value="">Select...</option>
+                            <option value="Cancel">Cancel</option>
+                            <option value="Cancel">Hold</option>
+                            <option value="Cancel">On Hold</option>
+                            <option value="Close">Close</option>
+                        </select>
+                        <button class="btn btn-sm green table-group-action-submit">
+                            <i class="fa fa-check"></i> Submit</button>
+                    </div>
+                    <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax">
+                        <thead>
+                            <tr role="row" class="heading">
+                                <th width="2%">
+                                    <input type="checkbox" class="group-checkable"> </th>
+                                <th width="5%"> Record&nbsp;# </th>
+                                <th width="15%"> Date </th>
+                                <th width="200"> Customer </th>
+                                <th width="10%"> Ship&nbsp;To </th>
+                                <th width="10%"> Price </th>
+                                <th width="10%"> Amount </th>
+                                <th width="10%"> Status </th>
+                                <th width="10%"> Actions </th>
+                            </tr>
+                            <tr role="row" class="filter">
+                                <td> </td>
+                                <td>
+                                    <input type="text" class="form-control form-filter input-sm" name="order_id"> </td>
+                                <td>
+                                    <div class="input-group date date-picker margin-bottom-5" data-date-format="dd/mm/yyyy">
+                                        <input type="text" class="form-control form-filter input-sm" readonly name="order_date_from" placeholder="From">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-sm default" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                    <div class="input-group date date-picker" data-date-format="dd/mm/yyyy">
+                                        <input type="text" class="form-control form-filter input-sm" readonly name="order_date_to" placeholder="To">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-sm default" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-filter input-sm" name="order_customer_name"> </td>
+                                <td>
+                                    <input type="text" class="form-control form-filter input-sm" name="order_ship_to"> </td>
+                                <td>
+                                    <div class="margin-bottom-5">
+                                        <input type="text" class="form-control form-filter input-sm" name="order_price_from" placeholder="From" /> </div>
+                                    <input type="text" class="form-control form-filter input-sm" name="order_price_to" placeholder="To" /> </td>
+                                <td>
+                                    <div class="margin-bottom-5">
+                                        <input type="text" class="form-control form-filter input-sm margin-bottom-5 clearfix" name="order_quantity_from" placeholder="From" /> </div>
+                                    <input type="text" class="form-control form-filter input-sm" name="order_quantity_to" placeholder="To" /> </td>
+                                <td>
+                                    <select name="order_status" class="form-control form-filter input-sm">
+                                        <option value="">Select...</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="closed">Closed</option>
+                                        <option value="hold">On Hold</option>
+                                        <option value="fraud">Fraud</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <div class="margin-bottom-5">
+                                        <button class="btn btn-sm green btn-outline filter-submit margin-bottom">
+                                            <i class="fa fa-search"></i> Search</button>
+                                    </div>
+                                    <button class="btn btn-sm red btn-outline filter-cancel">
+                                        <i class="fa fa-times"></i> Reset</button>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody> </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- End: life time stats -->
+    </div>
+</div>
 @endsection
 
 @section('js')
-	<script src="{{asset('themes/metronic/global/plugins/jquery-nestable/jquery.nestable.js')}}" type="text/javascript"></script>
+	{{-- <script src="{{asset('themes/metronic/global/plugins/jquery-nestable/jquery.nestable.js')}}" type="text/javascript"></script> --}}
 	{{-- <script src="{{asset('themes/metronic/global/plugins/domenu/jquery.domenu-0.95.77.min.js')}}" type="text/javascript"></script> --}}
 
+	<script src="{{asset('themes/metronic/global/scripts/datatable.js')}}" type="text/javascript"></script>
+	<script src="{{asset('themes/metronic/global/plugins/datatables/datatables.min.js')}}" type="text/javascript"></script>
+	<script src="{{asset('themes/metronic/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js')}}" type="text/javascript"></script>
+
 	<script type="text/javascript">
-		$(document).ready(function() {
-		  $('#nestable_list_1').nestable({
-		      group: 1
-		  });
+		$(document).ready(function(){
+			$("#datatable_ajax").DataTable({
+				// ajax : 
+				ordering : false,
+				order : [],
+				ajax : {
+					url : "test.json",
+					type : "post",
+					data: function ( d ) {
+         	},
+         	beforeSend: function (request) {
+          	request.setRequestHeader("X-CSRF-TOKEN", $("meta[name='csrf-token']").attr('content'));
+          }
+				},
+				columns : [
+					{
+						data : "number"
+					}
+				]
+			});
 		});
 	</script>
 @endsection
