@@ -1,9 +1,12 @@
-@inject('presenter', 'App\ViewPresenters\Backend\PermissionViewPresenter')
+@inject('presenter', 'App\Presenters\Backend\PermissionViewPresenter')
 @extends('themes.metronic.common.layout')
 
 @section('css')
 	{{-- <link href="{{asset('themes/metronic/global/plugins/domenu/jquery.domenu-0.95.77.css')}}" rel="stylesheet" type="text/css" /> --}}
 	<link href="{{asset('themes/metronic/global/plugins/jquery-nestable/jquery.nestable.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('themes/metronic/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('themes/metronic/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css')}}" rel="stylesheet" type="text/css" />
+
 	
 	<style type="text/css">
 		
@@ -34,32 +37,10 @@
                 </div>
                 <div class="actions">
                     <div class="btn-group btn-group-devided" data-toggle="buttons">
-                        <label class="btn btn-transparent grey-salsa btn-outline btn-circle btn-sm active">
-                            <input type="radio" name="options" class="toggle" id="option1">Actions</label>
-                        <label class="btn btn-transparent grey-salsa btn-outline btn-circle btn-sm">
-                            <input type="radio" name="options" class="toggle" id="option2">Settings</label>
-                    </div>
-                    <div class="btn-group">
-                        <a class="btn red btn-outline btn-circle" href="javascript:;" data-toggle="dropdown">
-                            <i class="fa fa-share"></i>
-                            <span class="hidden-xs"> Tools </span>
-                            <i class="fa fa-angle-down"></i>
+                        <a class="btn red btn-outline btn-circle btn-delete-more" href="javascript:;">
+                            <i class="fa fa-times"></i>
+                            <span class="hidden-xs">删除</span>
                         </a>
-                        <ul class="dropdown-menu pull-right">
-                            <li>
-                                <a href="javascript:;"> Export to Excel </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;"> Export to CSV </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;"> Export to XML </a>
-                            </li>
-                            <li class="divider"> </li>
-                            <li>
-                                <a href="javascript:;"> Print Invoices </a>
-                            </li>
-                        </ul>
                     </div>
                 </div>
             </div>
@@ -82,70 +63,47 @@
                             <tr role="row" class="heading">
                                 <th width="2%">
                                     <input type="checkbox" class="group-checkable"> </th>
-                                <th width="5%"> Record&nbsp;# </th>
-                                <th width="15%"> Date </th>
-                                <th width="200"> Customer </th>
-                                <th width="10%"> Ship&nbsp;To </th>
-                                <th width="10%"> Price </th>
-                                <th width="10%"> Amount </th>
-                                <th width="10%"> Status </th>
-                                <th width="10%"> Actions </th>
+                                <th width="5%">权限名称</th>
+                                <th width="5%">slug</th>
+                                <th width="5%">描述</th>
+                                <th width="5%">位置</th>
+                                <th width="5%">创建时间</th>
+                                <th width="5%">操作</th>
+
                             </tr>
                             <tr role="row" class="filter">
                                 <td> </td>
                                 <td>
-                                    <input type="text" class="form-control form-filter input-sm" name="order_id"> </td>
-                                <td>
-                                    <div class="input-group date date-picker margin-bottom-5" data-date-format="dd/mm/yyyy">
-                                        <input type="text" class="form-control form-filter input-sm" readonly name="order_date_from" placeholder="From">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-sm default" type="button">
-                                                <i class="fa fa-calendar"></i>
-                                            </button>
-                                        </span>
-                                    </div>
-                                    <div class="input-group date date-picker" data-date-format="dd/mm/yyyy">
-                                        <input type="text" class="form-control form-filter input-sm" readonly name="order_date_to" placeholder="To">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-sm default" type="button">
-                                                <i class="fa fa-calendar"></i>
-                                            </button>
-                                        </span>
-                                    </div>
+                                  <input type="text" class="form-control form-filter input-sm" name="name">
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control form-filter input-sm" name="order_customer_name"> </td>
-                                <td>
-                                    <input type="text" class="form-control form-filter input-sm" name="order_ship_to"> </td>
-                                <td>
-                                    <div class="margin-bottom-5">
-                                        <input type="text" class="form-control form-filter input-sm" name="order_price_from" placeholder="From" /> </div>
-                                    <input type="text" class="form-control form-filter input-sm" name="order_price_to" placeholder="To" /> </td>
-                                <td>
-                                    <div class="margin-bottom-5">
-                                        <input type="text" class="form-control form-filter input-sm margin-bottom-5 clearfix" name="order_quantity_from" placeholder="From" /> </div>
-                                    <input type="text" class="form-control form-filter input-sm" name="order_quantity_to" placeholder="To" /> </td>
-                                <td>
-                                    <select name="order_status" class="form-control form-filter input-sm">
-                                        <option value="">Select...</option>
-                                        <option value="pending">Pending</option>
-                                        <option value="closed">Closed</option>
-                                        <option value="hold">On Hold</option>
-                                        <option value="fraud">Fraud</option>
-                                    </select>
+                                  <input type="text" class="form-control form-filter input-sm" name="slug">
                                 </td>
                                 <td>
-                                    <div class="margin-bottom-5">
-                                        <button class="btn btn-sm green btn-outline filter-submit margin-bottom">
-                                            <i class="fa fa-search"></i> Search</button>
-                                    </div>
-                                    <button class="btn btn-sm red btn-outline filter-cancel">
-                                        <i class="fa fa-times"></i> Reset</button>
+                                  <input type="text" class="form-control form-filter input-sm" name="description">
+                                </td>
+                                <td>
+                                  <input type="text" class="form-control form-filter input-sm" name="position">
+                                </td>
+                                <td>
+                                  <input class="form-control form-control-inline form-filter input-sm date-picker" name="created_at" size="16" type="text" value="" />
+                                </td>
+                                <td>
+                                  <button class="btn green btn-outline filter-submit margin-bottom"><i class="fa fa-search"></i>搜索</button>
+                                  <button class="btn red btn-outline filter-cancel"><i class="fa fa-times"></i>重置</button>
                                 </td>
                             </tr>
                         </thead>
                         <tbody> </tbody>
                     </table>
+                </div>
+                <div class="actions">
+                    <div class="btn-group btn-group-devided" data-toggle="buttons">
+                        <a class="btn red btn-outline btn-circle btn-delete-more" href="javascript:;">
+                            <i class="fa fa-times"></i>
+                            <span class="hidden-xs">删除</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -161,17 +119,27 @@
 	<script src="{{asset('themes/metronic/global/scripts/datatable.js')}}" type="text/javascript"></script>
 	<script src="{{asset('themes/metronic/global/plugins/datatables/datatables.min.js')}}" type="text/javascript"></script>
 	<script src="{{asset('themes/metronic/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js')}}" type="text/javascript"></script>
+  <script src="{{asset('themes/metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}" type="text/javascript"></script>
+
 
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$("#datatable_ajax").DataTable({
+			var ajaxDatatable = $("#datatable_ajax").DataTable({
 				// ajax : 
+        searching : false,
+        serverSide : true,
+        // processing : true,
 				ordering : false,
 				order : [],
 				ajax : {
-					url : "test.json",
+					url : "{{route('permission.datatables')}}",
 					type : "post",
 					data: function ( d ) {
+            d.name = $(".form-filter[name='name']").val();
+            d.slug = $(".form-filter[name='slug']").val();
+            d.description = $(".form-filter[name='description']").val();
+            d.position = $(".form-filter[name='position']").val();
+            d.created_at = $(".form-filter[name='created_at']").val();
          	},
          	beforeSend: function (request) {
           	request.setRequestHeader("X-CSRF-TOKEN", $("meta[name='csrf-token']").attr('content'));
@@ -179,10 +147,51 @@
 				},
 				columns : [
 					{
-						data : "number"
-					}
+						data : "id",
+            name : "id",
+					},
+          {
+            data : "name",
+            name : "name",
+          },
+          {
+            data : "slug",
+            name : "slug"
+          },
+          {
+            data : "description",
+            name : "description"
+          },
+          {
+            data : "position",
+            name : "position"
+          },
+          {
+            data : "created_at",
+            name : "created_at"
+          },
+          {
+            data : "button",
+            name : "button"
+          }
 				]
 			});
+
+      $('.date-picker').datepicker({
+        autoclose: true,
+        format : "yyyy-mm-dd"
+      });
+
+      /*搜索*/
+      $(document).on('click', '.filter-submit', function(){
+        ajaxDatatable.ajax.reload();
+      });
+
+      /* 重置 */
+      $(document).on("click", ".filter-cancel", function(){
+        $(".form-filter").val('');
+      });
+
 		});
 	</script>
 @endsection

@@ -222,15 +222,15 @@ return [
         'basePath'      => app_path(),
         'rootNamespace' => 'App\\',
         'paths'         => [
-            'models'       => 'Entities',
+            'models'       => 'Repositories\\Models',
             'repositories' => 'Repositories\\Eloquent',
-            'interfaces'   => 'Contracts\\Repositories',
-            'transformers' => 'Transformers',
-            'presenters'   => 'Presenters',
-            'validators'   => 'Validators',
+            'interfaces'   => 'Repositories\\Contracts',
+            'transformers' => 'Repositories\\Transformers',
+            'presenters'   => 'Repositories\\Presenters',
+            'validators'   => 'Repositories\\Validators',
             'controllers'  => 'Http/Controllers',
             'provider'     => 'RepositoryServiceProvider',
-            'criteria'     => 'Criteria',
+            'criteria'     => 'Repositories\\Criteria',
             'stubsOverridePath' => app_path()
         ]
     ]

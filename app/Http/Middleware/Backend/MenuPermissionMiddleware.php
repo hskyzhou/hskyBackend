@@ -37,18 +37,21 @@ class MenuPermissionMiddleware{
 
         /*获取菜单访问权限*/
         $menu = $this->menuRepo->findByField('route', $routeName)->first();
-        $menuPermissions = $this->permissionRepo->menuPermissions($menu);
 
-        /*获取用户拥有权限*/
-        $user = getUser();
-        $userPermissions = $this->permissionRepo->userPermissions($user);
+        if($menu){
+            $menuPermissions = $this->permissionRepo->menuPermissions($menu);
 
-        if(!$menuPermissions->isEmpty()){
-            foreach($menuPermissions as $key => $menuPermission){
-                if(!$userPermissions->contains($menuPermission)){
-                    throw new NoPermissionException($menuPermission);
+            /*获取用户拥有权限*/
+            $user = getUser();
+            $userPermissions = $this->permissionRepo->userPermissions($user);
+
+            if(!$menuPermissions->isEmpty()){
+                foreach($menuPermissions as $key => $menuPermission){
+                    if(!$userPermissions->contains($menuPermission)){
+                        throw new NoPermissionException($menuPermission);
+                    }
                 }
-            }
+            }            
         }
 
         return $next($request);

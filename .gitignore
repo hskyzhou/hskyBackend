@@ -7,3 +7,4 @@ Homestead.yaml
 .env
 .tag*
 /storage
+.DS_Store

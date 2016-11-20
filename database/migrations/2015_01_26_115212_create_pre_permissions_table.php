@@ -28,6 +28,6 @@ class CreatePrePermissionsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('permissions');
+        Schema::drop('pre_permissions');
     }
 }

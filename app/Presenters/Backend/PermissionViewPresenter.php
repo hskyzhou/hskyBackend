@@ -1,5 +1,5 @@
 <?php
-	namespace App\ViewPresenters\Backend;
+	namespace App\Presenters\Backend;
 
 	class PermissionViewPresenter{
 		public function permissionsManage($permissionsManage){

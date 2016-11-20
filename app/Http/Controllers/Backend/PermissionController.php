@@ -25,4 +25,10 @@ class PermissionController extends Controller{
     	$permissionsManage = $this->service->permissionsManage();
     	return view($this->getView('index'), compact('permissionsManage'));
     }
+
+    public function datatables(){
+        $permissions = $this->service->datatables();
+
+        return response()->json($permissions);
+    }
 }

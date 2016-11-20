@@ -4,8 +4,8 @@ namespace App\Repositories\Eloquent;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Contracts\Repositories\PermissionRepository;
-use App\Entities\Permission;
+use App\Repositories\Contracts\PermissionRepository;
+use App\Repositories\Models\Permission;
 use App\Validators\PermissionValidator;
 
 use LaraveRedis;
@@ -142,5 +142,63 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
         }
 
         return $returnData;
+    }
+
+    /* 权限datatables */
+    public function datatables($wheres){
+        $draw = request('draw', 1);
+
+        $query = $this->dealDatatableParams($wheres);
+
+        return $query->get()->map(function($item, $key){
+            return [
+                'id' => $item->id,
+                'name' => $item->name,
+                'slug' => $item->slug,
+                'description' => $item->description,
+                'position' => $item->position,
+                'created_at' => $item->created_at->toDateString(),
+                'button' => $this->createButton(),
+            ];
+        });
+    }
+
+    public function datatablesCount($wheres){
+        $query = $this->dealDatatableParams($wheres);
+
+        return $query->count();
+    }
+
+    private function dealDatatableParams($wheres){
+        $query = $this->model;
+
+        $likeWhere = [
+            $this->model->getPropName(),
+            $this->model->getPropDescription()
+        ];
+
+        $eqWhere = [
+            $this->model->getPropSlug(),
+            $this->model->getPropPosition(),
+            $this->model->getPropCreatedat(),
+        ];
+
+
+        if($wheres){
+            foreach($wheres as $prop => $param){
+                if(in_array($prop, $likeWhere)){
+                    $query = $query->where($prop, 'like', "%{$param}%");
+                }
+
+                if(in_array($prop, $eqWhere)){
+                    $query = $query->where($prop, $param);
+                }
+            }
+        }
+        return $query;
+    }
+
+    public function createButton(){
+        return "<a href=''>修改</a> | <a href=''>删除</a>";
     }
 }

@@ -4,8 +4,8 @@ namespace App\Repositories\Eloquent;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Contracts\Repositories\roleRepository;
-use App\Entities\Role;
+use App\Repositories\Contracts\roleRepository;
+use App\Repositories\Models\Role;
 use App\Validators\RoleValidator;
 
 /**

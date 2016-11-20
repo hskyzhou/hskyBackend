@@ -4,8 +4,8 @@ namespace App\Repositories\Eloquent;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Contracts\Repositories\MenuRepository;
-use App\Entities\Menu;
+use App\Repositories\Contracts\MenuRepository;
+use App\Repositories\Models\Menu;
 use App\Validators\MenuValidator;
 
 /**

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Contracts\Repositories;
+namespace App\Repositories\Contracts;
 
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 /**
- * Interface MenuRepository
+ * Interface RoleRepository
  * @package namespace App\Contracts\Repositories;
  */
-interface MenuRepository extends RepositoryInterface
+interface RoleRepository extends RepositoryInterface
 {
     //
 }
