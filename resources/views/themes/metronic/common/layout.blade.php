@@ -34,6 +34,7 @@
     <!-- BEGIN THEME LAYOUT STYLES -->
     <link href="{{asset('themes/metronic/layouts/layout/css/layout.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('themes/metronic/layouts/layout/css/themes/darkblue.min.css')}}" rel="stylesheet" type="text/css" id="style_color" />
+    <link href="{{asset('themes/metronic/global/plugins/layer/skin/default/layer.css')}}" rel="stylesheet" type="text/css" id="style_color" />
     @yield('css')
     <link href="{{asset('themes/metronic/layouts/layout/css/custom.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- END THEME LAYOUT STYLES -->
@@ -42,6 +43,7 @@
   <!-- END HEAD -->
 
   <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white page-md">
+    @yield('modal')
     <!-- BEGIN HEADER -->
     @include('themes.metronic.common.head')
     <!-- END HEADER -->
@@ -120,6 +122,7 @@
     <script src="{{asset('themes/metronic/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.germany.js')}}" type="text/javascript"></script>
     <script src="{{asset('themes/metronic/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js')}}" type="text/javascript"></script>
     <script src="{{asset('themes/metronic/global/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js')}}" type="text/javascript"></script>
+    <script src="{{asset('themes/metronic/global/plugins/layer/layer.js')}}" type="text/javascript"></script>
     <!-- END PAGE LEVEL PLUGINS -->
     <!-- BEGIN THEME GLOBAL SCRIPTS -->
     <script src="{{asset('themes/metronic/global/scripts/app.min.js')}}" type="text/javascript"></script>

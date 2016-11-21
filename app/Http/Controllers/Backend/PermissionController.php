@@ -31,4 +31,35 @@ class PermissionController extends Controller{
 
         return response()->json($permissions);
     }
+
+    public function edit($id){
+        return '修改界面';
+    }
+
+    public function destroy($id){
+        return $this->service->destroy($id);
+    }
+
+    public function delete($id){
+        return $this->service->delete($id);
+    }
+
+    public function restore($id){
+        return $this->service->restore($id);
+    }
+
+    /*删除多个*/
+    public function deleteMore(){
+        return $this->service->deleteMore();
+    }
+
+    /*恢复多个*/
+    public function restoreMore(){
+        return $this->service->restoreMore();
+    }
+
+    /*彻底删除多个*/
+    public function destroyMore(){
+        return $this->service->destroyMore();
+    }
 }

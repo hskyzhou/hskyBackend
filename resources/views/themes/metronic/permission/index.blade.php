@@ -16,6 +16,20 @@
 	</style>
 @endsection
 
+
+@section('modal')
+  <div class="modal fade" id="ajax" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <img src="../assets/global/img/loading-spinner-grey.gif" alt="" class="loading">
+          <span> &nbsp;&nbsp;Loading... </span>
+        </div>
+      </div>
+    </div>
+  </div>
+@endsection
+
 @section('content')
 
 <h3 class="page-title"> Ajax Datatables
@@ -37,9 +51,19 @@
                 </div>
                 <div class="actions">
                     <div class="btn-group btn-group-devided" data-toggle="buttons">
-                        <a class="btn red btn-outline btn-circle btn-delete-more" href="javascript:;">
+                        <a class="btn red btn-outline btn-circle filter-delete-more" href="javascript:;">
                             <i class="fa fa-times"></i>
                             <span class="hidden-xs">删除</span>
+                        </a>
+
+                        <a class="btn green btn-outline btn-circle filter-restore-more" href="javascript:;">
+                            <i class="fa fa-reply"></i>
+                            <span class="hidden-xs">恢复</span>
+                        </a>
+
+                        <a data-url="{{route('permission.destroy.more')}}" class="btn red btn-outline btn-circle filter-full-delete-more" href="javascript:;">
+                            <i class="fa fa-ban"></i>
+                            <span class="hidden-xs">彻底删除</span>
                         </a>
                     </div>
                 </div>
@@ -89,8 +113,8 @@
                                   <input class="form-control form-control-inline form-filter input-sm date-picker" name="created_at" size="16" type="text" value="" />
                                 </td>
                                 <td>
-                                  <button class="btn green btn-outline filter-submit margin-bottom"><i class="fa fa-search"></i>搜索</button>
-                                  <button class="btn red btn-outline filter-cancel"><i class="fa fa-times"></i>重置</button>
+                                  <button class="btn green btn-outline filter-submit margin-bottom"><i class="fa fa-search"></i></button>
+                                  <button class="btn red btn-outline filter-cancel"><i class="fa fa-refresh"></i></button>
                                 </td>
                             </tr>
                         </thead>
@@ -99,9 +123,19 @@
                 </div>
                 <div class="actions">
                     <div class="btn-group btn-group-devided" data-toggle="buttons">
-                        <a class="btn red btn-outline btn-circle btn-delete-more" href="javascript:;">
+                        <a data-url="{{route('permission.delete.more')}}" class="btn red btn-outline btn-circle filter-delete-more" href="javascript:;">
                             <i class="fa fa-times"></i>
                             <span class="hidden-xs">删除</span>
+                        </a>
+
+                        <a data-url="{{route('permission.restore.more')}}" class="btn green btn-outline btn-circle filter-restore-more" href="javascript:;">
+                            <i class="fa fa-reply"></i>
+                            <span class="hidden-xs">恢复</span>
+                        </a>
+
+                        <a data-url="{{route('permission.destroy.more')}}" class="btn red btn-outline btn-circle filter-full-delete-more" href="javascript:;">
+                            <i class="fa fa-ban"></i>
+                            <span class="hidden-xs">彻底删除</span>
                         </a>
                     </div>
                 </div>
@@ -124,7 +158,8 @@
 
 	<script type="text/javascript">
 		$(document).ready(function(){
-			var ajaxDatatable = $("#datatable_ajax").DataTable({
+      var table = $("#datatable_ajax");
+			var ajaxDatatable = table.DataTable({
 				// ajax : 
         searching : false,
         serverSide : true,
@@ -145,10 +180,13 @@
           	request.setRequestHeader("X-CSRF-TOKEN", $("meta[name='csrf-token']").attr('content'));
           }
 				},
+        drawCallback : function(oSettings) { // run some code on table redraw
+          App.initUniform($('input[type="checkbox"]')); // reinitialize uniform checkboxes on each table reload
+        },
 				columns : [
 					{
-						data : "id",
-            name : "id",
+						data : "checkbox",
+            name : "checkbox",
 					},
           {
             data : "name",
@@ -177,6 +215,34 @@
 				]
 			});
 
+      table.on('change', '.group-checkable', function(){
+        var set = table.find('tbody > tr > td:nth-child(1) input[type="checkbox"]');
+        var checked = $(this).prop("checked");
+        $(set).each(function() {
+            $(this).prop("checked", checked);
+        });
+        $.uniform.update(set);
+      });
+
+      table.on('change', 'tbody > tr > td:nth-child(1) input[type="checkbox"]', function(){
+        var checked = $(this).prop("checked");
+        var parent = table.find('.group-checkable');
+        if(checked){
+          parent.prop('checked', checked);
+        }else{
+          var set = $("#datatable_ajax").find('tbody > tr > td:nth-child(1) input[type="checkbox"]');
+          var sonChecked = false;
+          $(set).each(function(){
+            sonChecked = sonChecked || $(this).prop("checked");
+          });
+
+          if(!sonChecked){
+            parent.prop('checked', checked);
+          }
+        }
+        $.uniform.update(parent);
+      })
+
       $('.date-picker').datepicker({
         autoclose: true,
         format : "yyyy-mm-dd"
@@ -189,9 +255,293 @@
 
       /* 重置 */
       $(document).on("click", ".filter-cancel", function(){
-        $(".form-filter").val('');
+        $('textarea.form-filter, select.form-filter, input.form-filter', table).each(function() {
+          $(this).val("");
+        });
+        $('input.form-filter[type="checkbox"]', table).each(function() {
+          $(this).attr("checked", false);
+        });
+        ajaxDatatable.ajax.reload();
       });
 
+      layer.config({
+        btnAlign: 'r',
+        closeBtn : 2,
+        shadeClose : true,
+        anim : 1,
+        maxmin : true,
+        scrollbar : true,
+      });
+
+      $(document).on("click", ".filter-delete", function(){
+        $this = $(this);
+        var deleteUrl = $this.data('url');
+        layer.open({
+          title : "删除",
+          content: '确定要删除此记录吗(删除记录会放入回收站)?',
+          btn: ['确定', '取消'],
+          yes: function(index, layero){
+            $.ajax({
+              url: deleteUrl,
+              type: 'post',
+              dataType: 'json',
+              data: {},
+              headers : {
+                "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
+              },
+              success : function(response){
+                layer.msg(response.message);
+                if(response.result){
+                  ajaxDatatable.ajax.reload();
+                }
+              },
+              error : function(response){
+                layer.close(index);
+              }
+            });
+          },
+          no: function(index, layero){
+            layer.close(index);
+          },
+          cancel: function(index, layero){ 
+            layer.close(index);
+          }
+        });
+        return false;
+      });
+
+      $(document).on("click", ".filter-full-delete", function(){
+        $this = $(this);
+        var deleteUrl = $this.data('url');
+        layer.open({
+          title : "彻底删除",
+          content: '确定要彻底删除此记录吗?',
+          btn: ['确定', '取消'],
+          yes: function(index, layero){
+            $.ajax({
+              url: deleteUrl,
+              type: 'DELETE',
+              dataType: 'json',
+              data: {},
+              headers : {
+                "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
+              },
+              success : function(response){
+                layer.msg(response.message);
+                if(response.result){
+                  ajaxDatatable.ajax.reload();
+                }
+              },
+              error : function(response){
+                layer.close(index);
+              }
+            });
+          },
+          no: function(index, layero){
+            layer.close(index);
+          },
+          cancel: function(index, layero){ 
+            layer.close(index);
+          }
+        });
+        return false;
+      });
+
+      $(document).on("click", ".filter-restore", function(){
+        $this = $(this);
+        var deleteUrl = $this.data('url');
+        layer.open({
+          title : "恢复",
+          content: '确定要恢复此记录吗?',
+          btn: ['确定', '取消'],
+          yes: function(index, layero){
+            $.ajax({
+              url: deleteUrl,
+              type: 'post',
+              dataType: 'json',
+              data: {},
+              headers : {
+                "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
+              },
+              success : function(response){
+                layer.msg(response.message);
+                if(response.result){
+                  ajaxDatatable.ajax.reload();
+                }
+              },
+              error : function(response){
+                layer.close(index);
+              }
+            });
+          },
+          no: function(index, layero){
+            layer.close(index);
+          },
+          cancel: function(index, layero){ 
+            layer.close(index);
+          }
+        });
+        return false;
+      });
+
+      $(document).on("click", ".filter-delete-more", function(){
+        $this = $(this);
+        var deleteUrl = $this.data('url');
+
+        var set = $("#datatable_ajax").find('tbody > tr > td:nth-child(1) input[type="checkbox"]');
+        var ids = [];
+        $(set).each(function(){
+          $this = $(this);
+          if($this.prop("checked")){
+            ids.push($this.val());
+          }
+        });
+
+        if(ids.length == 0){
+          layer.msg("请先选中记录");
+          return false;
+        }
+
+        layer.open({
+          title : "删除",
+          content: '确定要删除这些记录吗(删除记录会放入回收站)?',
+          btn: ['确定', '取消'],
+          yes: function(index, layero){
+            $.ajax({
+              url: deleteUrl,
+              type: 'post',
+              dataType: 'json',
+              data: {
+                ids : ids
+              },
+              headers : {
+                "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
+              },
+              success : function(response){
+                layer.msg(response.message);
+                if(response.result){
+                  ajaxDatatable.ajax.reload();
+                }
+              },
+              error : function(response){
+                layer.close(index);
+              }
+            });
+          },
+          no: function(index, layero){
+            layer.close(index);
+          },
+          cancel: function(index, layero){ 
+            layer.close(index);
+          }
+        });
+      });
+
+      $(document).on("click", ".filter-restore-more", function(){
+        $this = $(this);
+        var deleteUrl = $this.data('url');
+
+        var set = $("#datatable_ajax").find('tbody > tr > td:nth-child(1) input[type="checkbox"]');
+        var ids = [];
+        $(set).each(function(){
+          $this = $(this);
+          if($this.prop("checked")){
+            ids.push($this.val());
+          }
+        });
+
+        if(ids.length == 0){
+          layer.msg("请先选中记录");
+          return false;
+        }
+
+        layer.open({
+          title : "恢复",
+          content: '确定要恢复这些记录吗?',
+          btn: ['确定', '取消'],
+          yes: function(index, layero){
+            $.ajax({
+              url: deleteUrl,
+              type: 'post',
+              dataType: 'json',
+              data: {
+                ids : ids
+              },
+              headers : {
+                "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
+              },
+              success : function(response){
+                layer.msg(response.message);
+                if(response.result){
+                  ajaxDatatable.ajax.reload();
+                }
+              },
+              error : function(response){
+                layer.close(index);
+              }
+            });
+          },
+          no: function(index, layero){
+            layer.close(index);
+          },
+          cancel: function(index, layero){ 
+            layer.close(index);
+          }
+        });
+      });
+
+      $(document).on("click", ".filter-full-delete-more", function(){
+        $this = $(this);
+        var deleteUrl = $this.data('url');
+
+        var set = $("#datatable_ajax").find('tbody > tr > td:nth-child(1) input[type="checkbox"]');
+        var ids = [];
+        $(set).each(function(){
+          $this = $(this);
+          if($this.prop("checked")){
+            ids.push($this.val());
+          }
+        });
+
+        if(ids.length == 0){
+          layer.msg("请先选中彻底记录");
+          return false;
+        }
+
+        layer.open({
+          title : "彻底删除",
+          content: '确定要彻底删除这些记录吗(全选删除只会删除处于回收站的记录)?',
+          btn: ['确定', '取消'],
+          yes: function(index, layero){
+            $.ajax({
+              url: deleteUrl,
+              type: 'post',
+              dataType: 'json',
+              data: {
+                ids : ids
+              },
+              headers : {
+                "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
+              },
+              success : function(response){
+                layer.msg(response.message);
+                if(response.result){
+                  ajaxDatatable.ajax.reload();
+                }
+              },
+              error : function(response){
+                layer.close(index);
+              }
+            });
+          },
+          no: function(index, layero){
+            layer.close(index);
+          },
+          cancel: function(index, layero){ 
+            layer.close(index);
+          }
+        });
+      });
 		});
 	</script>
 @endsection

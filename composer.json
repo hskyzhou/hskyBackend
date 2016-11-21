@@ -33,7 +33,8 @@
         },
         "files" : [
             "app/Helpers/redisKeyHelper.php",
-            "app/Helpers/common.php"
+            "app/Helpers/common.php",
+            "app/Helpers/constHelper.php"
         ]
     },
     "autoload-dev": {

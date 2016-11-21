@@ -11,11 +11,19 @@ class Permission extends GeniusTSPermission implements Transformable
 {
     use TransformableTrait;
 
-    protected $fillable = [];
+    protected $fillable = ['name', 'slug', 'description', 'model', 'position', 'status'];
 
     protected $dates = [
     	'created_at', 'updated_at'
     ];
+
+    public function scopeActive($query){
+        return $query->where($this->getPropStatus(), getStatusActive());
+    }
+
+    public function scopeClose($query){
+        return $query->where($this->getPropStatus(), getStatusClose());
+    }    
 
     public function getPropName(){
     	return 'name';
@@ -36,4 +44,9 @@ class Permission extends GeniusTSPermission implements Transformable
     public function getPropCreatedat(){
     	return 'created_at';
     }
+
+    public function getPropStatus(){
+        return 'status';
+    }
 }
+
