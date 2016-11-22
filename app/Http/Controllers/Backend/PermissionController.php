@@ -36,12 +36,23 @@ class PermissionController extends Controller{
         return view($this->getView('add'));
     }
 
-    public function store(\App\Http\Requests\Backend\PermissionCreateRequest $request){
+    public function store(\App\Http\Requests\Backend\PermissionRequest $request){
         return $this->service->store();
     }
 
     public function edit($id){
-        return '修改界面';
+        $return = $this->service->edit($id);
+
+        if($return['result']){
+            $info = $return['info'];
+            return view($this->getview('edit'), compact('info'));
+        }else{
+            return $return['message'];
+        }
+    }
+
+    public function update(\App\Http\Requests\Backend\PermissionRequest $request, $id){
+        return $this->service->update($id);
     }
 
     public function destroy($id){

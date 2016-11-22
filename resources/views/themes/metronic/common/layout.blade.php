@@ -125,7 +125,7 @@
     <script src="{{asset('themes/metronic/global/plugins/layer/layer.js')}}" type="text/javascript"></script>
     <!-- END PAGE LEVEL PLUGINS -->
     <!-- BEGIN THEME GLOBAL SCRIPTS -->
-    <script src="{{asset('themes/metronic/global/scripts/app.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('themes/metronic/global/scripts/app.js')}}" type="text/javascript"></script>
     <!-- END THEME GLOBAL SCRIPTS -->
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
     <script src="{{asset('themes/metronic/pages/scripts/dashboard.min.js')}}" type="text/javascript"></script>
@@ -134,6 +134,9 @@
     <script src="{{asset('themes/metronic/layouts/layout/scripts/layout.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('themes/metronic/layouts/layout/scripts/demo.min.js')}}" type="text/javascript"></script>
     <!-- END THEME LAYOUT SCRIPTS -->
+    <script type="text/javascript">
+        App.setAssetsPath('../themes/metronic/');
+    </script>
     @yield('js')
   </body>
 </html>

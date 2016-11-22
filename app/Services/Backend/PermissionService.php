@@ -245,4 +245,56 @@
 
 			return $returnData;
 		}
+
+		public function edit($id){
+			$returnData = [
+				'result' => false,
+				'message' => '获取失败',
+				'info' => '',
+			];
+
+			$info = $this->permissionRepo->find($id);
+
+			if($info){
+				$returnData = array_merge($returnData, [
+					'result' => true,
+					'message' => '获取成功',
+					'info' => $info
+				]);
+			}
+
+			return $returnData;
+		}
+
+		public function update($id){
+			$returnData = [
+				'result' => false,
+				'message' => '修改失败'
+			];
+
+			$data = [
+				'name' => request('name'),
+				'slug' => request('slug'),
+				'position' => request('position'),
+				'status' => request('status'),
+				'description' => request('description', ''),
+				'model' => request('model', '')
+			];
+
+			$info = $this->permissionRepo->find($id);
+
+			if($info){
+				if($this->permissionRepo->update($data, $id)){
+					$returnData = array_merge($returnData, [
+						'result' => true,
+						'message' => '修改成功'
+					]);
+				}
+			}else{
+				/* 进行保存*/
+				$returnData = $this->store();
+			}
+
+			return $returnData;
+		}
 	}

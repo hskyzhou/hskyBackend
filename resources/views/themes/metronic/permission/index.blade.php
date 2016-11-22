@@ -29,22 +29,18 @@
 
 @section('content')
 
-<h3 class="page-title"> Ajax Datatables
-    <small>basic datatable samples</small>
+<h3 class="page-title">
+  <i class="icon-settings font-dark"></i> 
+  <span class="caption-subject font-dark sbold uppercase">权限管理</span>
 </h3>
 <!-- END PAGE TITLE-->
 <!-- END PAGE HEADER-->
 <div class="row">
     <div class="col-md-12">
-        <div class="note note-danger">
-            <p> NOTE: The below datatable is not connected to a real database so the filter and sorting is just simulated for demo purposes only. </p>
-        </div>
         <!-- Begin: life time stats -->
         <div class="portlet light portlet-fit portlet-datatable bordered">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="icon-settings font-dark"></i>
-                    <span class="caption-subject font-dark sbold uppercase">Ajax Datatable</span>
                 </div>
                 <div class="actions">
                     <div class="btn-group btn-group-devided" data-toggle="buttons">
@@ -159,438 +155,496 @@
   <script src="{{asset('themes/metronic//global/plugins/bootstrap-select/js/bootstrap-select.min.js')}}" type="text/javascript"></script>
 
 	<script type="text/javascript">
-		$(document).ready(function(){
-      var table = $("#datatable_ajax");
-			var ajaxDatatable = table.DataTable({
-				// ajax : 
-        searching : false,
-        serverSide : true,
-        // processing : true,
-				ordering : false,
-				order : [],
-				ajax : {
-					url : "{{route('permission.datatables')}}",
-					type : "post",
-					data: function ( d ) {
-            d.name = $(".form-filter[name='name']").val();
-            d.slug = $(".form-filter[name='slug']").val();
-            d.description = $(".form-filter[name='description']").val();
-            d.position = $(".form-filter[name='position']").val();
-            d.created_at = $(".form-filter[name='created_at']").val();
-         	},
-         	beforeSend: function (request) {
-          	request.setRequestHeader("X-CSRF-TOKEN", $("meta[name='csrf-token']").attr('content'));
-          }
+    var table = $("#datatable_ajax");
+
+    /*设置ajax table*/
+		var ajaxDatatable = table.DataTable({
+			// ajax : 
+      searching : false,
+      serverSide : true,
+      // processing : true,
+			ordering : false,
+			order : [],
+			ajax : {
+				url : "{{route('permission.datatables')}}",
+				type : "post",
+				data: function ( d ) {
+          d.name = $(".form-filter[name='name']").val();
+          d.slug = $(".form-filter[name='slug']").val();
+          d.description = $(".form-filter[name='description']").val();
+          d.position = $(".form-filter[name='position']").val();
+          d.created_at = $(".form-filter[name='created_at']").val();
+       	},
+       	beforeSend: function (request) {
+        	request.setRequestHeader("X-CSRF-TOKEN", $("meta[name='csrf-token']").attr('content'));
+        }
+			},
+      drawCallback : function(oSettings) { // run some code on table redraw
+        App.initUniform($('input[type="checkbox"]')); // reinitialize uniform checkboxes on each table reload
+      },
+			columns : [
+				{
+					data : "checkbox",
+          name : "checkbox",
 				},
-        drawCallback : function(oSettings) { // run some code on table redraw
-          App.initUniform($('input[type="checkbox"]')); // reinitialize uniform checkboxes on each table reload
+        {
+          data : "name",
+          name : "name",
         },
-				columns : [
-					{
-						data : "checkbox",
-            name : "checkbox",
-					},
-          {
-            data : "name",
-            name : "name",
-          },
-          {
-            data : "slug",
-            name : "slug"
-          },
-          {
-            data : "description",
-            name : "description"
-          },
-          {
-            data : "position",
-            name : "position"
-          },
-          {
-            data : "created_at",
-            name : "created_at"
-          },
-          {
-            data : "button",
-            name : "button"
-          }
-				]
-			});
-
-      table.on('change', '.group-checkable', function(){
-        var set = table.find('tbody > tr > td:nth-child(1) input[type="checkbox"]');
-        var checked = $(this).prop("checked");
-        $(set).each(function() {
-            $(this).prop("checked", checked);
-        });
-        $.uniform.update(set);
-      });
-
-      table.on('change', 'tbody > tr > td:nth-child(1) input[type="checkbox"]', function(){
-        var checked = $(this).prop("checked");
-        var parent = table.find('.group-checkable');
-        if(checked){
-          parent.prop('checked', checked);
-        }else{
-          var set = $("#datatable_ajax").find('tbody > tr > td:nth-child(1) input[type="checkbox"]');
-          var sonChecked = false;
-          $(set).each(function(){
-            sonChecked = sonChecked || $(this).prop("checked");
-          });
-
-          if(!sonChecked){
-            parent.prop('checked', checked);
-          }
+        {
+          data : "slug",
+          name : "slug"
+        },
+        {
+          data : "description",
+          name : "description"
+        },
+        {
+          data : "position",
+          name : "position"
+        },
+        {
+          data : "created_at",
+          name : "created_at"
+        },
+        {
+          data : "button",
+          name : "button"
         }
-        $.uniform.update(parent);
-      })
-
-      $('.date-picker').datepicker({
-        autoclose: true,
-        format : "yyyy-mm-dd"
-      });
-
-      /*搜索*/
-      $(document).on('click', '.filter-submit', function(){
-        ajaxDatatable.ajax.reload();
-      });
-
-      /* 重置 */
-      $(document).on("click", ".filter-cancel", function(){
-        $('textarea.form-filter, select.form-filter, input.form-filter', table).each(function() {
-          $(this).val("");
-        });
-        $('input.form-filter[type="checkbox"]', table).each(function() {
-          $(this).attr("checked", false);
-        });
-        ajaxDatatable.ajax.reload();
-      });
-
-      layer.config({
-        btnAlign: 'r',
-        closeBtn : 2,
-        shadeClose : true,
-        anim : 1,
-        maxmin : true,
-        scrollbar : true,
-      });
-
-      $(document).on("click", ".filter-delete", function(){
-        $this = $(this);
-        var deleteUrl = $this.data('url');
-        layer.open({
-          title : "删除",
-          content: '确定要删除此记录吗(删除记录会放入回收站)?',
-          btn: ['确定', '取消'],
-          yes: function(index, layero){
-            $.ajax({
-              url: deleteUrl,
-              type: 'post',
-              dataType: 'json',
-              data: {},
-              headers : {
-                "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
-              },
-              success : function(response){
-                layer.msg(response.message);
-                if(response.result){
-                  ajaxDatatable.ajax.reload();
-                }
-              },
-              error : function(response){
-                layer.close(index);
-              }
-            });
-          },
-          no: function(index, layero){
-            layer.close(index);
-          },
-          cancel: function(index, layero){ 
-            layer.close(index);
-          }
-        });
-        return false;
-      });
-
-      $(document).on("click", ".filter-full-delete", function(){
-        $this = $(this);
-        var deleteUrl = $this.data('url');
-        layer.open({
-          title : "彻底删除",
-          content: '确定要彻底删除此记录吗?',
-          btn: ['确定', '取消'],
-          yes: function(index, layero){
-            $.ajax({
-              url: deleteUrl,
-              type: 'DELETE',
-              dataType: 'json',
-              data: {},
-              headers : {
-                "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
-              },
-              success : function(response){
-                layer.msg(response.message);
-                if(response.result){
-                  ajaxDatatable.ajax.reload();
-                }
-              },
-              error : function(response){
-                layer.close(index);
-              }
-            });
-          },
-          no: function(index, layero){
-            layer.close(index);
-          },
-          cancel: function(index, layero){ 
-            layer.close(index);
-          }
-        });
-        return false;
-      });
-
-      $(document).on("click", ".filter-restore", function(){
-        $this = $(this);
-        var deleteUrl = $this.data('url');
-        layer.open({
-          title : "恢复",
-          content: '确定要恢复此记录吗?',
-          btn: ['确定', '取消'],
-          yes: function(index, layero){
-            $.ajax({
-              url: deleteUrl,
-              type: 'post',
-              dataType: 'json',
-              data: {},
-              headers : {
-                "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
-              },
-              success : function(response){
-                layer.msg(response.message);
-                if(response.result){
-                  ajaxDatatable.ajax.reload();
-                }
-              },
-              error : function(response){
-                layer.close(index);
-              }
-            });
-          },
-          no: function(index, layero){
-            layer.close(index);
-          },
-          cancel: function(index, layero){ 
-            layer.close(index);
-          }
-        });
-        return false;
-      });
-
-      $(document).on("click", ".filter-delete-more", function(){
-        $this = $(this);
-        var deleteUrl = $this.data('url');
-
-        var set = $("#datatable_ajax").find('tbody > tr > td:nth-child(1) input[type="checkbox"]');
-        var ids = [];
-        $(set).each(function(){
-          $this = $(this);
-          if($this.prop("checked")){
-            ids.push($this.val());
-          }
-        });
-
-        if(ids.length == 0){
-          layer.msg("请先选中记录");
-          return false;
-        }
-
-        layer.open({
-          title : "删除",
-          content: '确定要删除这些记录吗(删除记录会放入回收站)?',
-          btn: ['确定', '取消'],
-          yes: function(index, layero){
-            $.ajax({
-              url: deleteUrl,
-              type: 'post',
-              dataType: 'json',
-              data: {
-                ids : ids
-              },
-              headers : {
-                "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
-              },
-              success : function(response){
-                layer.msg(response.message);
-                if(response.result){
-                  ajaxDatatable.ajax.reload();
-                }
-              },
-              error : function(response){
-                layer.close(index);
-              }
-            });
-          },
-          no: function(index, layero){
-            layer.close(index);
-          },
-          cancel: function(index, layero){ 
-            layer.close(index);
-          }
-        });
-      });
-
-      $(document).on("click", ".filter-restore-more", function(){
-        $this = $(this);
-        var deleteUrl = $this.data('url');
-
-        var set = $("#datatable_ajax").find('tbody > tr > td:nth-child(1) input[type="checkbox"]');
-        var ids = [];
-        $(set).each(function(){
-          $this = $(this);
-          if($this.prop("checked")){
-            ids.push($this.val());
-          }
-        });
-
-        if(ids.length == 0){
-          layer.msg("请先选中记录");
-          return false;
-        }
-
-        layer.open({
-          title : "恢复",
-          content: '确定要恢复这些记录吗?',
-          btn: ['确定', '取消'],
-          yes: function(index, layero){
-            $.ajax({
-              url: deleteUrl,
-              type: 'post',
-              dataType: 'json',
-              data: {
-                ids : ids
-              },
-              headers : {
-                "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
-              },
-              success : function(response){
-                layer.msg(response.message);
-                if(response.result){
-                  ajaxDatatable.ajax.reload();
-                }
-              },
-              error : function(response){
-                layer.close(index);
-              }
-            });
-          },
-          no: function(index, layero){
-            layer.close(index);
-          },
-          cancel: function(index, layero){ 
-            layer.close(index);
-          }
-        });
-      });
-
-      $(document).on("click", ".filter-full-delete-more", function(){
-        $this = $(this);
-        var deleteUrl = $this.data('url');
-
-        var set = $("#datatable_ajax").find('tbody > tr > td:nth-child(1) input[type="checkbox"]');
-        var ids = [];
-        $(set).each(function(){
-          $this = $(this);
-          if($this.prop("checked")){
-            ids.push($this.val());
-          }
-        });
-
-        if(ids.length == 0){
-          layer.msg("请先选中彻底记录");
-          return false;
-        }
-
-        layer.open({
-          title : "彻底删除",
-          content: '确定要彻底删除这些记录吗(全选删除只会删除处于回收站的记录)?',
-          btn: ['确定', '取消'],
-          yes: function(index, layero){
-            $.ajax({
-              url: deleteUrl,
-              type: 'post',
-              dataType: 'json',
-              data: {
-                ids : ids
-              },
-              headers : {
-                "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
-              },
-              success : function(response){
-                layer.msg(response.message);
-                if(response.result){
-                  ajaxDatatable.ajax.reload();
-                }
-              },
-              error : function(response){
-                layer.close(index);
-              }
-            });
-          },
-          no: function(index, layero){
-            layer.close(index);
-          },
-          cancel: function(index, layero){ 
-            layer.close(index);
-          }
-        });
-      });
-
-      $(document).on("click", ".filter-store", function(){
-        $this = $(this);
-        var storeUrl = $this.data('href');
-
-        var data = {};
-
-        $('textarea.form-add, select.form-add, input.form-add:not([type="radio"],[type="checkbox"])', $("#ajax")).each(function() {
-            data[$(this).attr("name")] = $(this).val();
-        });
-
-        $('input.form-add[type="checkbox"]:checked').each(function() {
-            data[$(this).attr("name")] = $(this).val();
-        });
-
-        // get all radio buttons
-        $('input.form-add[type="radio"]:checked').each(function() {
-            data[$(this).attr("name")] = $(this).val();
-        });
-
-        $.ajax({
-          url: storeUrl,
-          type: 'post',
-          dataType: 'json',
-          data: data,
-          headers : {
-            "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
-          },
-          success : function(response){
-            layer.msg(response.message);
-            if(response.result){
-              $("#ajax").modal('hide');
-              ajaxDatatable.ajax.reload();
-            }
-          },
-          error : function(response){
-            console.log(response.responseText);
-            if(response.status == '422'){
-              var str = '';
-              for(var i in response.responseJSON){
-                str += response.responseJSON[i][0] + "<br />";
-              }
-              layer.msg(str);
-            }
-          }
-        });
-      });
+			]
 		});
+
+    /*处理表格左侧选中*/
+    table.on('change', '.group-checkable', function(){
+      var set = table.find('tbody > tr > td:nth-child(1) input[type="checkbox"]');
+      var checked = $(this).prop("checked");
+      $(set).each(function() {
+          $(this).prop("checked", checked);
+      });
+      $.uniform.update(set);
+    });
+
+    table.on('change', 'tbody > tr > td:nth-child(1) input[type="checkbox"]', function(){
+      var checked = $(this).prop("checked");
+      var parent = table.find('.group-checkable');
+      if(checked){
+        parent.prop('checked', checked);
+      }else{
+        var set = $("#datatable_ajax").find('tbody > tr > td:nth-child(1) input[type="checkbox"]');
+        var sonChecked = false;
+        $(set).each(function(){
+          sonChecked = sonChecked || $(this).prop("checked");
+        });
+
+        if(!sonChecked){
+          parent.prop('checked', checked);
+        }
+      }
+      $.uniform.update(parent);
+    })
+
+    $('.date-picker').datepicker({
+      autoclose: true,
+      format : "yyyy-mm-dd"
+    });
+
+    /*搜索*/
+    $(document).on('click', '.filter-submit', function(){
+      ajaxDatatable.ajax.reload();
+    });
+
+    /* 重置 */
+    $(document).on("click", ".filter-cancel", function(){
+      $('textarea.form-filter, select.form-filter, input.form-filter', table).each(function() {
+        $(this).val("");
+      });
+      $('input.form-filter[type="checkbox"]', table).each(function() {
+        $(this).attr("checked", false);
+      });
+      ajaxDatatable.ajax.reload();
+    });
+
+    layer.config({
+      btnAlign: 'r',
+      closeBtn : 2,
+      shadeClose : true,
+      anim : 1,
+      maxmin : true,
+      scrollbar : true,
+    });
+
+    $(document).on("click", ".filter-delete", function(){
+      $this = $(this);
+      var deleteUrl = $this.data('url');
+      layer.open({
+        title : "删除",
+        content: '确定要删除此记录吗(删除记录会放入回收站)?',
+        btn: ['确定', '取消'],
+        yes: function(index, layero){
+          $.ajax({
+            url: deleteUrl,
+            type: 'post',
+            dataType: 'json',
+            data: {},
+            headers : {
+              "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
+            },
+            success : function(response){
+              layer.msg(response.message);
+              if(response.result){
+                ajaxDatatable.ajax.reload();
+              }
+            },
+            error : function(response){
+              layer.close(index);
+            }
+          });
+        },
+        no: function(index, layero){
+          layer.close(index);
+        },
+        cancel: function(index, layero){ 
+          layer.close(index);
+        }
+      });
+      return false;
+    });
+
+    $(document).on("click", ".filter-full-delete", function(){
+      $this = $(this);
+      var deleteUrl = $this.data('url');
+      layer.open({
+        title : "彻底删除",
+        content: '确定要彻底删除此记录吗?',
+        btn: ['确定', '取消'],
+        yes: function(index, layero){
+          $.ajax({
+            url: deleteUrl,
+            type: 'DELETE',
+            dataType: 'json',
+            data: {},
+            headers : {
+              "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
+            },
+            success : function(response){
+              layer.msg(response.message);
+              if(response.result){
+                ajaxDatatable.ajax.reload();
+              }
+            },
+            error : function(response){
+              layer.close(index);
+            }
+          });
+        },
+        no: function(index, layero){
+          layer.close(index);
+        },
+        cancel: function(index, layero){ 
+          layer.close(index);
+        }
+      });
+      return false;
+    });
+
+    $(document).on("click", ".filter-restore", function(){
+      $this = $(this);
+      var deleteUrl = $this.data('url');
+      layer.open({
+        title : "恢复",
+        content: '确定要恢复此记录吗?',
+        btn: ['确定', '取消'],
+        yes: function(index, layero){
+          $.ajax({
+            url: deleteUrl,
+            type: 'post',
+            dataType: 'json',
+            data: {},
+            headers : {
+              "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
+            },
+            success : function(response){
+              layer.msg(response.message);
+              if(response.result){
+                ajaxDatatable.ajax.reload();
+              }
+            },
+            error : function(response){
+              layer.close(index);
+            }
+          });
+        },
+        no: function(index, layero){
+          layer.close(index);
+        },
+        cancel: function(index, layero){ 
+          layer.close(index);
+        }
+      });
+      return false;
+    });
+
+    $(document).on("click", ".filter-delete-more", function(){
+      $this = $(this);
+      var deleteUrl = $this.data('url');
+
+      var set = $("#datatable_ajax").find('tbody > tr > td:nth-child(1) input[type="checkbox"]');
+      var ids = [];
+      $(set).each(function(){
+        $this = $(this);
+        if($this.prop("checked")){
+          ids.push($this.val());
+        }
+      });
+
+      if(ids.length == 0){
+        layer.msg("请先选中记录");
+        return false;
+      }
+
+      layer.open({
+        title : "删除",
+        content: '确定要删除这些记录吗(删除记录会放入回收站)?',
+        btn: ['确定', '取消'],
+        yes: function(index, layero){
+          $.ajax({
+            url: deleteUrl,
+            type: 'post',
+            dataType: 'json',
+            data: {
+              ids : ids
+            },
+            headers : {
+              "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
+            },
+            success : function(response){
+              layer.msg(response.message);
+              if(response.result){
+                ajaxDatatable.ajax.reload();
+              }
+            },
+            error : function(response){
+              layer.close(index);
+            }
+          });
+        },
+        no: function(index, layero){
+          layer.close(index);
+        },
+        cancel: function(index, layero){ 
+          layer.close(index);
+        }
+      });
+    });
+
+    $(document).on("click", ".filter-restore-more", function(){
+      $this = $(this);
+      var deleteUrl = $this.data('url');
+
+      var set = $("#datatable_ajax").find('tbody > tr > td:nth-child(1) input[type="checkbox"]');
+      var ids = [];
+      $(set).each(function(){
+        $this = $(this);
+        if($this.prop("checked")){
+          ids.push($this.val());
+        }
+      });
+
+      if(ids.length == 0){
+        layer.msg("请先选中记录");
+        return false;
+      }
+
+      layer.open({
+        title : "恢复",
+        content: '确定要恢复这些记录吗?',
+        btn: ['确定', '取消'],
+        yes: function(index, layero){
+          $.ajax({
+            url: deleteUrl,
+            type: 'post',
+            dataType: 'json',
+            data: {
+              ids : ids
+            },
+            headers : {
+              "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
+            },
+            success : function(response){
+              layer.msg(response.message);
+              if(response.result){
+                ajaxDatatable.ajax.reload();
+              }
+            },
+            error : function(response){
+              layer.close(index);
+            }
+          });
+        },
+        no: function(index, layero){
+          layer.close(index);
+        },
+        cancel: function(index, layero){ 
+          layer.close(index);
+        }
+      });
+    });
+
+    $(document).on("click", ".filter-full-delete-more", function(){
+      $this = $(this);
+      var deleteUrl = $this.data('url');
+
+      var set = $("#datatable_ajax").find('tbody > tr > td:nth-child(1) input[type="checkbox"]');
+      var ids = [];
+      $(set).each(function(){
+        $this = $(this);
+        if($this.prop("checked")){
+          ids.push($this.val());
+        }
+      });
+
+      if(ids.length == 0){
+        layer.msg("请先选中彻底记录");
+        return false;
+      }
+
+      layer.open({
+        title : "彻底删除",
+        content: '确定要彻底删除这些记录吗(全选删除只会删除处于回收站的记录)?',
+        btn: ['确定', '取消'],
+        yes: function(index, layero){
+          $.ajax({
+            url: deleteUrl,
+            type: 'post',
+            dataType: 'json',
+            data: {
+              ids : ids
+            },
+            headers : {
+              "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
+            },
+            success : function(response){
+              layer.msg(response.message);
+              if(response.result){
+                ajaxDatatable.ajax.reload();
+              }
+            },
+            error : function(response){
+              layer.close(index);
+            }
+          });
+        },
+        no: function(index, layero){
+          layer.close(index);
+        },
+        cancel: function(index, layero){ 
+          layer.close(index);
+        }
+      });
+    });
+
+    $(document).on("click", ".filter-store", function(){
+      App.blockUI({
+        target : ".modal-content"
+      });
+
+      $this = $(this);
+      var storeUrl = $this.data('href');
+
+      var data = {};
+
+      $('textarea.form-add, select.form-add, input.form-add:not([type="radio"],[type="checkbox"])', $("#ajax")).each(function() {
+          data[$(this).attr("name")] = $(this).val();
+      });
+
+      $('input.form-add[type="checkbox"]:checked').each(function() {
+          data[$(this).attr("name")] = $(this).val();
+      });
+
+      // get all radio buttons
+      $('input.form-add[type="radio"]:checked').each(function() {
+          data[$(this).attr("name")] = $(this).val();
+      });
+
+      $.ajax({
+        url: storeUrl,
+        type: 'post',
+        dataType: 'json',
+        data: data,
+        headers : {
+          "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
+        },
+        success : function(response){
+          App.unblockUI('.modal-content');
+          layer.msg(response.message);
+          if(response.result){
+            $("#ajax").modal('hide');
+            ajaxDatatable.ajax.reload();
+          }
+        },
+        error : function(response){
+          App.unblockUI('.modal-content');
+          if(response.status == '422'){
+            var str = '';
+            for(var i in response.responseJSON){
+              str += response.responseJSON[i][0] + "<br />";
+            }
+            layer.msg(str);
+          }
+        }
+      });
+    });
+
+    $(document).on("click", ".filter-update", function(){
+      App.blockUI({
+        target : ".modal-content"
+      });
+
+      $this = $(this);
+      var updateUrl = $this.data('href');
+
+      var data = {};
+
+      $('textarea.form-add, select.form-add, input.form-add:not([type="radio"],[type="checkbox"])', $("#ajax")).each(function() {
+          data[$(this).attr("name")] = $(this).val();
+      });
+
+      $('input.form-add[type="checkbox"]:checked').each(function() {
+          data[$(this).attr("name")] = $(this).val();
+      });
+
+      // get all radio buttons
+      $('input.form-add[type="radio"]:checked').each(function() {
+          data[$(this).attr("name")] = $(this).val();
+      });
+
+      $.ajax({
+        url: updateUrl,
+        type: 'put',
+        dataType: 'json',
+        data: data,
+        headers : {
+          "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
+        },
+        success : function(response){
+          App.unblockUI('.modal-content');
+          layer.msg(response.message);
+          if(response.result){
+            $("#ajax").modal('hide');
+            ajaxDatatable.ajax.reload();
+          }
+        },
+        error : function(response){
+          App.unblockUI('.modal-content');
+          if(response.status == '422'){
+            var str = '';
+            for(var i in response.responseJSON){
+              str += response.responseJSON[i][0] + "<br />";
+            }
+            layer.msg(str);
+          }
+        }
+      });
+    });
 	</script>
 @endsection
