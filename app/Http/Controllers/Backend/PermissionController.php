@@ -32,6 +32,14 @@ class PermissionController extends Controller{
         return response()->json($permissions);
     }
 
+    public function create(){
+        return view($this->getView('add'));
+    }
+
+    public function store(\App\Http\Requests\Backend\PermissionCreateRequest $request){
+        return $this->service->store();
+    }
+
     public function edit($id){
         return '修改界面';
     }

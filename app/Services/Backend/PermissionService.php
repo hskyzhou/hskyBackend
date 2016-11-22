@@ -17,6 +17,9 @@
 		public function datatables(){
 			$draw = request('draw', 1);
 
+			$offset = request('start', 0);
+			$limit = request('length', 10);
+
 			/*处理参数*/
 			$wheres = [];
 
@@ -45,7 +48,7 @@
 			    $wheres['created_at'] = $created_at;
 			}
 
-			$datas = $this->permissionRepo->datatables($wheres);
+			$datas = $this->permissionRepo->datatables($wheres, $limit, $offset);
 
 			$count = $this->permissionRepo->datatablesCount($wheres);
 
@@ -211,6 +214,35 @@
 					'message' => '未选中彻底删除记录'
 				]);
 			}
+			return $returnData;
+		}
+
+		public function store(){
+			$returnData = [
+				'result' => false,
+				'message' => '添加失败'
+			];
+
+			$data = [
+				'name' => request('name'),
+				'slug' => request('slug'),
+				'position' => request('position'),
+				'status' => request('status'),
+				'description' => request('description', ''),
+				'model' => request('model', '')
+			];
+
+			if($this->permissionRepo->create($data)){
+				$returnData = array_merge($returnData, [
+					'result' => true,
+					'message' => '添加成功'
+				]);
+			}else{
+				$returnData = array_merge($returnData, [
+					'message' => '添加失败'
+				]);
+			}
+
 			return $returnData;
 		}
 	}

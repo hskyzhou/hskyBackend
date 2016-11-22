@@ -6,14 +6,7 @@
 	<link href="{{asset('themes/metronic/global/plugins/jquery-nestable/jquery.nestable.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('themes/metronic/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{asset('themes/metronic/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css')}}" rel="stylesheet" type="text/css" />
-
-	
-	<style type="text/css">
-		
-		.content-class{
-			cursor : pointer;
-		}
-	</style>
+  <link href="{{asset('themes/metronic/global/plugins/bootstrap-select/css/bootstrap-select.min.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 
 
@@ -21,6 +14,10 @@
   <div class="modal fade" id="ajax" role="basic" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            <h4 class="modal-title">Responsive & Scrollable</h4>
+        </div>
         <div class="modal-body">
           <img src="../assets/global/img/loading-spinner-grey.gif" alt="" class="loading">
           <span> &nbsp;&nbsp;Loading... </span>
@@ -51,12 +48,17 @@
                 </div>
                 <div class="actions">
                     <div class="btn-group btn-group-devided" data-toggle="buttons">
-                        <a class="btn red btn-outline btn-circle filter-delete-more" href="javascript:;">
+                        <a href="{{route('permission.create')}}" class="btn blue btn-outline btn-circle filter-add" data-target='#ajax' data-toggle='modal'>
+                            <i class="fa fa-plus"></i>
+                            <span class="hidden-xs">添加</span>
+                        </a>
+
+                        <a data-url="{{route('permission.delete.more')}}" class="btn red btn-outline btn-circle filter-delete-more" href="javascript:;">
                             <i class="fa fa-times"></i>
                             <span class="hidden-xs">删除</span>
                         </a>
 
-                        <a class="btn green btn-outline btn-circle filter-restore-more" href="javascript:;">
+                        <a data-url="{{route('permission.restore.more')}}" class="btn green btn-outline btn-circle filter-restore-more" href="javascript:;">
                             <i class="fa fa-reply"></i>
                             <span class="hidden-xs">恢复</span>
                         </a>
@@ -154,7 +156,7 @@
 	<script src="{{asset('themes/metronic/global/plugins/datatables/datatables.min.js')}}" type="text/javascript"></script>
 	<script src="{{asset('themes/metronic/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js')}}" type="text/javascript"></script>
   <script src="{{asset('themes/metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}" type="text/javascript"></script>
-
+  <script src="{{asset('themes/metronic//global/plugins/bootstrap-select/js/bootstrap-select.min.js')}}" type="text/javascript"></script>
 
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -539,6 +541,53 @@
           },
           cancel: function(index, layero){ 
             layer.close(index);
+          }
+        });
+      });
+
+      $(document).on("click", ".filter-store", function(){
+        $this = $(this);
+        var storeUrl = $this.data('href');
+
+        var data = {};
+
+        $('textarea.form-add, select.form-add, input.form-add:not([type="radio"],[type="checkbox"])', $("#ajax")).each(function() {
+            data[$(this).attr("name")] = $(this).val();
+        });
+
+        $('input.form-add[type="checkbox"]:checked').each(function() {
+            data[$(this).attr("name")] = $(this).val();
+        });
+
+        // get all radio buttons
+        $('input.form-add[type="radio"]:checked').each(function() {
+            data[$(this).attr("name")] = $(this).val();
+        });
+
+        $.ajax({
+          url: storeUrl,
+          type: 'post',
+          dataType: 'json',
+          data: data,
+          headers : {
+            "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
+          },
+          success : function(response){
+            layer.msg(response.message);
+            if(response.result){
+              $("#ajax").modal('hide');
+              ajaxDatatable.ajax.reload();
+            }
+          },
+          error : function(response){
+            console.log(response.responseText);
+            if(response.status == '422'){
+              var str = '';
+              for(var i in response.responseJSON){
+                str += response.responseJSON[i][0] + "<br />";
+              }
+              layer.msg(str);
+            }
           }
         });
       });

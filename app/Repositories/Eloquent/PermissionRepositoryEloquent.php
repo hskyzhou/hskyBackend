@@ -146,10 +146,10 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
     }
 
     /* 权限datatables */
-    public function datatables($wheres){
+    public function datatables($wheres, $limit, $offset){
         $draw = request('draw', 1);
 
-        $query = $this->dealDatatableParams($wheres);
+        $query = $this->dealDatatableParams($wheres)->limit($limit)->offset($offset);
 
         return $query->get()->map(function($item, $key){
             $id = $item->id;
