@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Backend\PermissionService as Service;
 
 class PermissionController extends Controller{
-	use \App\Traits\ControllerTrait;
+    use \App\Traits\ControllerTrait;
     
     protected $service;
     protected $theme = '';
