@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Services\Backend\RoleService;
+use App\Services\Backend\RoleService as Service;
 
 class RoleController extends Controller
 {
@@ -29,8 +29,13 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $permissionsManage = $this->service->permissionsManage();
-        return view($this->getView('index'), compact('permissionsManage'));
+        return view($this->getView('index'));
+    }
+
+    /* datatables 获取数据*/
+    public function datatables(){
+        $returnData = $this->service->datatables();
+        return response()->json($returnData);
     }
 
     /**

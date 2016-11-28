@@ -40,7 +40,7 @@
             <li class="nav-item start active open">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="icon-home"></i>
-                    <span class="title">权限管理</span>
+                    <span class="title">系统管理</span>
                     <span class="selected"></span>
                     <span class="arrow open"></span>
                 </a>
@@ -48,7 +48,14 @@
                     <li class="nav-item start active open">
                         <a href="{{route('permission.index')}}" class="nav-link ">
                             <i class="icon-bar-chart"></i>
-                            <span class="title">权限列表</span>
+                            <span class="title">权限管理</span>
+                            <span class="selected"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item start">
+                        <a href="{{route('role.index')}}" class="nav-link ">
+                            <i class="icon-bar-chart"></i>
+                            <span class="title">角色管理</span>
                             <span class="selected"></span>
                         </a>
                     </li>

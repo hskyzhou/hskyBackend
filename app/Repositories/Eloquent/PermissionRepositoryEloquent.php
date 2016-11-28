@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Eloquent;
 
+use Illuminate\Container\Container as Application;
+
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Repositories\Contracts\PermissionRepository;
@@ -17,6 +19,9 @@ use Carbon\Carbon;
  */
 class PermissionRepositoryEloquent extends BaseRepository implements PermissionRepository
 {
+    public function __construct(Application $app){
+        parent::__construct($app);
+    }
     /**
      * Specify Model class name
      *
@@ -147,8 +152,6 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
 
     /* 权限datatables */
     public function datatables($wheres, $limit, $offset){
-        $draw = request('draw', 1);
-
         $query = $this->dealDatatableParams($wheres)->limit($limit)->offset($offset);
 
         return $query->get()->map(function($item, $key){

@@ -1,4 +1,5 @@
-@inject('presenter', 'App\Presenters\Backend\PermissionPresenter')
+@inject("presenter", "App\Presenters\Backend\RolePresenter")
+
 @extends('themes.metronic.common.layout')
 
 @section('css')
@@ -31,7 +32,7 @@
 
 <h3 class="page-title">
   <i class="icon-settings font-dark"></i> 
-  <span class="caption-subject font-dark sbold uppercase">权限管理</span>
+  <span class="caption-subject font-dark sbold uppercase">角色管理</span>
 </h3>
 <!-- END PAGE TITLE-->
 <!-- END PAGE HEADER-->
@@ -85,10 +86,9 @@
                             <tr role="row" class="heading">
                                 <th width="2%">
                                     <input type="checkbox" class="group-checkable"> </th>
-                                <th width="5%">权限名称</th>
+                                <th width="5%">角色名称</th>
                                 <th width="5%">slug</th>
                                 <th width="5%">描述</th>
-                                <th width="5%">位置</th>
                                 <th width="5%">创建时间</th>
                                 <th width="5%">操作</th>
 
@@ -103,9 +103,6 @@
                                 </td>
                                 <td>
                                   <input type="text" class="form-control form-filter input-sm" name="description">
-                                </td>
-                                <td>
-                                  <input type="text" class="form-control form-filter input-sm" name="position">
                                 </td>
                                 <td>
                                   <input class="form-control form-control-inline form-filter input-sm date-picker" name="created_at" size="16" type="text" value="" />
@@ -166,13 +163,12 @@
 			ordering : false,
 			order : [],
 			ajax : {
-				url : "{{route('permission.datatables')}}",
+				url : "{{route('role.datatables')}}",
 				type : "post",
 				data: function ( d ) {
           d.name = $(".form-filter[name='name']").val();
           d.slug = $(".form-filter[name='slug']").val();
           d.description = $(".form-filter[name='description']").val();
-          d.position = $(".form-filter[name='position']").val();
           d.created_at = $(".form-filter[name='created_at']").val();
        	},
        	beforeSend: function (request) {
@@ -198,10 +194,6 @@
         {
           data : "description",
           name : "description"
-        },
-        {
-          data : "position",
-          name : "position"
         },
         {
           data : "created_at",
