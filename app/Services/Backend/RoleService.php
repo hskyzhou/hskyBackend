@@ -55,4 +55,35 @@ class RoleService{
         ];
 	}
 
+	public function delete($id){
+		$returnData = [
+		    'result' => false,
+		    'message' => '删除失败',
+		];
+
+		try {
+			$info = $this->roleRepo->find($id);
+			
+			if($info){
+				if($this->roleRepo->delete($id)){
+					$returnData = array_merge($returnData, [
+	                    'result' => true,
+	                    'message' => '删除成功',
+	                ]);
+				}else{
+					$returnData = array_merge($returnData, [
+					    'message' => '删除失败',
+					]);
+				}
+			}else{
+				$returnData = array_merge($returnData, [
+				    'message' => '查无记录',
+				]);
+			}
+		} catch (Exception $e) {
+			
+		}
+
+		return $returnData;
+	}
 }

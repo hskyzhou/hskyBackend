@@ -103,4 +103,14 @@ class RoleController extends Controller
     {
         //
     }
+
+    /*逻辑删除*/
+    public function delete($id){
+        return $this->service->delete($id);
+    }
+
+    /*恢复*/
+    public function restore(){
+        return $this->service->delete();
+    }
 }

@@ -9,6 +9,7 @@ use App\Repositories\Contracts\roleRepository;
 use App\Repositories\Models\Role;
 use App\Validators\RoleValidator;
 
+use LaraveRedis, Carbon\Carbon;
 /**
  * Class RoleRepositoryEloquent
  * @package namespace App\Repositories\Eloquent;
@@ -94,12 +95,12 @@ class RoleRepositoryEloquent extends BaseRepository implements RoleRepository{
     }
 
     private function createButton($id, $status){
-        $updateUrl = route('permission.edit', [$id]);
-        $destroyUrl = route('permission.destroy', [$id]);
-        $deleteUrl = route('permission.delete', [$id]);
-        $restoreUrl = route('permission.restore', [$id]);
+        $updateUrl = route('role.edit', [$id]);
+        $destroyUrl = route('role.destroy', [$id]);
+        $deleteUrl = route('role.delete', [$id]);
+        $restoreUrl = route('role.restore', [$id]);
 
-        $btnUpdate = "<a class='btn yellow btn-outline sbold' href='{$updateUrl}' data-target='#ajax' data-toggle='modal'><i class='fa fa-pencil'></i></a>";
+        $btnUpdate = "<a class='btn yellow btn-outline sbold' href='{$updateUrl}'><i class='fa fa-pencil'></i></a>";
         $btnOther = "";
         if($status == getStatusActive()){
             /*删除*/
@@ -118,7 +119,9 @@ class RoleRepositoryEloquent extends BaseRepository implements RoleRepository{
         return "<input type='checkbox' name='id[]' value='{$id}'>";
     }
 
-    
+    public function delete($id){
+        return $this->update(['status' => getStatusClose()], $id);
+    }
 
     /**
      * Boot up the repository, pushing criteria
@@ -128,3 +131,4 @@ class RoleRepositoryEloquent extends BaseRepository implements RoleRepository{
         $this->pushCriteria(app(RequestCriteria::class));
     }
 }
+ 
