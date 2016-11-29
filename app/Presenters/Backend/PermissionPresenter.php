@@ -1,7 +1,7 @@
 <?php
 	namespace App\Presenters\Backend;
 
-	class PermissionViewPresenter{
+	class PermissionPresenter{
 		public function permissionsManage($permissionsManage){
 			/*权限数据*/
 			$permissionData = $permissionsManage['data'];

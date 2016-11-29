@@ -45,7 +45,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        return view($this->getView('create'));
     }
 
     /**
@@ -110,7 +110,22 @@ class RoleController extends Controller
     }
 
     /*恢复*/
-    public function restore(){
-        return $this->service->delete();
+    public function restore($id){
+        return $this->service->restore($id);
+    }
+
+    /*删除多个*/
+    public function deleteMore(){
+        return $this->service->deleteMore();
+    }
+
+    /*恢复多个*/
+    public function restoreMore(){
+        return $this->service->restoreMore();
+    }
+
+    /*彻底删除多个*/
+    public function destroyMore(){
+        return $this->service->destroyMore();
     }
 }

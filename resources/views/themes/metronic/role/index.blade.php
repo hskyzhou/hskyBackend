@@ -44,23 +44,24 @@
                 <div class="caption">
                 </div>
                 <div class="actions">
-                    <div class="btn-group btn-group-devided" data-toggle="buttons">
-                        <a href="{{route('permission.create')}}" class="btn blue btn-outline btn-circle filter-add" data-target='#ajax' data-toggle='modal'>
+                    <div class="btn-group">
+                        <a href="{{route('role.create')}}" class="btn blue btn-outline btn-circle">
                             <i class="fa fa-plus"></i>
                             <span class="hidden-xs">添加</span>
                         </a>
-
-                        <a data-url="{{route('permission.delete.more')}}" class="btn red btn-outline btn-circle filter-delete-more" href="javascript:;">
+                    </div>
+                    <div class="btn-group btn-group-devided" data-toggle="buttons">
+                        <a data-url="{{route('role.delete.more')}}" class="btn red btn-outline btn-circle filter-delete-more" href="javascript:;">
                             <i class="fa fa-times"></i>
                             <span class="hidden-xs">删除</span>
                         </a>
 
-                        <a data-url="{{route('permission.restore.more')}}" class="btn green btn-outline btn-circle filter-restore-more" href="javascript:;">
+                        <a data-url="{{route('role.restore.more')}}" class="btn green btn-outline btn-circle filter-restore-more" href="javascript:;">
                             <i class="fa fa-reply"></i>
                             <span class="hidden-xs">恢复</span>
                         </a>
 
-                        <a data-url="{{route('permission.destroy.more')}}" class="btn red btn-outline btn-circle filter-full-delete-more" href="javascript:;">
+                        <a data-url="{{route('role.destroy.more')}}" class="btn red btn-outline btn-circle filter-full-delete-more" href="javascript:;">
                             <i class="fa fa-ban"></i>
                             <span class="hidden-xs">彻底删除</span>
                         </a>
@@ -118,17 +119,17 @@
                 </div>
                 <div class="actions">
                     <div class="btn-group btn-group-devided" data-toggle="buttons">
-                        <a data-url="{{route('permission.delete.more')}}" class="btn red btn-outline btn-circle filter-delete-more" href="javascript:;">
+                        <a data-url="{{route('role.delete.more')}}" class="btn red btn-outline btn-circle filter-delete-more" href="javascript:;">
                             <i class="fa fa-times"></i>
                             <span class="hidden-xs">删除</span>
                         </a>
 
-                        <a data-url="{{route('permission.restore.more')}}" class="btn green btn-outline btn-circle filter-restore-more" href="javascript:;">
+                        <a data-url="{{route('role.restore.more')}}" class="btn green btn-outline btn-circle filter-restore-more" href="javascript:;">
                             <i class="fa fa-reply"></i>
                             <span class="hidden-xs">恢复</span>
                         </a>
 
-                        <a data-url="{{route('permission.destroy.more')}}" class="btn red btn-outline btn-circle filter-full-delete-more" href="javascript:;">
+                        <a data-url="{{route('role.destroy.more')}}" class="btn red btn-outline btn-circle filter-full-delete-more" href="javascript:;">
                             <i class="fa fa-ban"></i>
                             <span class="hidden-xs">彻底删除</span>
                         </a>

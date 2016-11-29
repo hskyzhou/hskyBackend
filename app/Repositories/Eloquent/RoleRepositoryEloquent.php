@@ -123,6 +123,31 @@ class RoleRepositoryEloquent extends BaseRepository implements RoleRepository{
         return $this->update(['status' => getStatusClose()], $id);
     }
 
+    public function restore($id){
+        return $this->update(['status' => getStatusActive()], $id);
+    }
+
+    public function deleteMore($ids){
+        return $this->model
+                    ->active()
+                    ->whereIn($this->model->getKeyName(), $ids)
+                    ->update(['status' => getStatusClose()]);
+    }
+
+    public function restoreMore($ids){
+        return $this->model
+                    ->close()
+                    ->whereIn($this->model->getKeyName(), $ids)
+                    ->update(['status' => getStatusActive()]);
+    }
+
+    public function destroyMore($ids){
+        return $this->model
+                    ->close()
+                    ->whereIn($this->model->getKeyName(), $ids)
+                    ->delete();
+    }
+
     /**
      * Boot up the repository, pushing criteria
      */
