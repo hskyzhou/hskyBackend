@@ -1,5 +1,5 @@
 <?php 
-	if(!function_exists('getStatusOpen')){
+	if(!function_exists('getStatusActive')){
 		/*获取 开启状态的值*/
 		function getStatusActive(){
 			return config('global.status.active.value');

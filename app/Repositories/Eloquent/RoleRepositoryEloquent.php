@@ -10,6 +10,7 @@ use App\Repositories\Models\Role;
 use App\Validators\RoleValidator;
 
 use LaraveRedis, Carbon\Carbon;
+
 /**
  * Class RoleRepositoryEloquent
  * @package namespace App\Repositories\Eloquent;
@@ -135,10 +136,18 @@ class RoleRepositoryEloquent extends BaseRepository implements RoleRepository{
     }
 
     public function restoreMore($ids){
-        return $this->model
-                    ->close()
-                    ->whereIn($this->model->getKeyName(), $ids)
-                    ->update(['status' => getStatusActive()]);
+        $this->applyCriteria();
+        $this->applyScope();
+
+        $result = $this->model
+                        ->close()
+                        ->whereIn('id', $ids)
+                        ->update(['status' => getStatusActive()]);
+
+        $this->resetModel();
+        $this->resetScope();
+
+        return $result;
     }
 
     public function destroyMore($ids){

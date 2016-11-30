@@ -6,6 +6,9 @@ use App\Repositories\Eloquent\RoleRepositoryEloquent;
 use App\Repositories\Eloquent\PermissionRepositoryEloquent;
 
 use App\Traits\ServiceTrait;
+
+use App\Repositories\Criteria\Role\StatusActiveCriteria;
+
 class RoleService{
 	use ServiceTrait;
 
@@ -186,6 +189,29 @@ class RoleService{
 	}
 
 	public function create(){
-		$this->permissionRepo->all();
+		$permissions = $this->permissionRepo->with(['prePermissions'])->all();
+
+		$dealPermissions = [];
+		if(!$permissions->isEmpty()){
+			$dealPermissions = $this->dealCreatePermissions($permissions);
+		}
+
+		return [
+			'permissions' => $dealPermissions
+		];
 	}
-}
+
+	private function dealCreatePermissions($permissions){
+		$results = [];
+		foreach($permissions as $permission){
+			$slugs = explode('.', $permission->slug);
+			$results[$slugs[0]][] = [
+				'id' => $permission->id,
+				'name' => $permission->name,
+				'slug' => $permission->slug,
+				'childs' => $permission->prePermissions
+			];
+		}
+		return $results;
+	}
+} 

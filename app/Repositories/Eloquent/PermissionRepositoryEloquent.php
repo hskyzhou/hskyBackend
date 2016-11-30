@@ -13,6 +13,8 @@ use App\Validators\PermissionValidator;
 use LaraveRedis;
 use Carbon\Carbon;
 
+use App\Repositories\Criteria\Permission\StatusActiveCriteria;
+
 /**
  * Class PermissionRepositoryEloquent
  * @package namespace App\Repositories\Eloquent;
@@ -38,6 +40,7 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
     public function boot()
     {
         $this->pushCriteria(app(RequestCriteria::class));
+        $this->pushCriteria(StatusActiveCriteria::class);
     }
 
     /*获取菜单权限*/

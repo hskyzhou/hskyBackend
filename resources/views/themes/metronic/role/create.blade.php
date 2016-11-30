@@ -92,46 +92,13 @@
                       </div>
                       <div class="form-group form-md-line-input form-md-floating-label">
                         <div class="col-md-8 col-md-offset-2">
-                          <table>
-                            <thead>
+                          <table class="table table-bordered table-striped table-condensed flip-content">
+                            <thead class="flip-content">
                               <th>模块</th> 
-                              <th>位置</th>
+                              <th>权限</th>
                             </thead>
                             <tbody>
-                              <td>aaa</td>
-                              <td>
-                                
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="portlet light bordered">
-                                            <div class="portlet-body">
-                                                <ul class="nav nav-tabs">
-                                                    <li class="active">
-                                                        <a href="#tab_1_1" data-toggle="tab"> Home </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#tab_1_2" data-toggle="tab"> Profile </a>
-                                                    </li>
-                                                    
-                                                </ul>
-                                                <div class="tab-content">
-                                                    <div class="tab-pane fade active in" id="tab_1_1">
-                                                        <p> Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher
-                                                            retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi
-                                                            qui. </p>
-                                                    </div>
-                                                    <div class="tab-pane fade" id="tab_1_2">
-                                                        <p> Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft
-                                                            beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica
-                                                            VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester
-                                                            stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park. </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                              </td>
+                              {!! $presenter->showPermissions($permissions) !!}
                             </tbody>
                           </table>
                         </div>
