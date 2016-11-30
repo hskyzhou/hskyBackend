@@ -12,7 +12,7 @@ class Role extends GeniusTSRole implements Transformable
 {
     use TransformableTrait;
 
-    protected $fillable = ['name', 'slug', 'level', 'created_at', 'updated_at', 'status'];
+    protected $fillable = ['name', 'slug', 'level', 'created_at', 'updated_at', 'status', 'description'];
 
     protected $dates = [
     	'created_at', 'updated_at'

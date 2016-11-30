@@ -11,6 +11,8 @@ use App\Validators\RoleValidator;
 
 use LaraveRedis, Carbon\Carbon;
 
+use App\Repositories\Criteria\Role\StatusActiveCriteria;
+
 /**
  * Class RoleRepositoryEloquent
  * @package namespace App\Repositories\Eloquent;
@@ -163,6 +165,7 @@ class RoleRepositoryEloquent extends BaseRepository implements RoleRepository{
     public function boot()
     {
         $this->pushCriteria(app(RequestCriteria::class));
+        $this->pushCriteria(StatusActiveCriteria::class);
     }
 }
  

@@ -214,4 +214,66 @@ class RoleService{
 		}
 		return $results;
 	}
+
+	public function store(){
+		$returnData = [
+			'result' => false,
+			'message' => '保存失败'
+		];
+
+		try {
+			$exception = DB::transaction(function(){
+				$data = request()->all();
+
+				try {
+					$role = $this->roleRepo->create($data);
+				} catch (Exception $e) {
+					throw new Exception("角色创建失败");
+				}
+
+				try {
+					$permissionIds = request('permission', []);
+					$role->permissions()->attach($permissionIds);	
+				} catch (Exception $e) {
+					throw new Exception("角色绑定权限失败");
+				}	
+
+				return [
+					'result' => true,
+					'message' => '保存成功'
+				];
+			});
+			$returnData = array_merge($returnData, $exception);
+		} catch (Exception $e) {
+			$returnData = array_merge($returnData, [
+				'message' => $e->getMessage();
+			]);
+		}
+		
+		return $returnData;
+	}
+
+	public function edit($id){
+		$returnData = [
+			'result' => false,
+			'message' => '获取角色信息失败',
+			'role' => '',
+			'permissions' => collect([]),
+		];
+		try {
+			$role = $this->roleRepo->skipCriteria()->find($id);
+			$permissions = $role->permissions();
+			
+			$returnData = array_merge($returnData, [
+				'result' => true,
+				'message' => '获取成功',
+				'role' => $role,
+				'permissions' => $permissions
+			]);
+		} catch (Exception $e) {
+			
+		}
+
+		return $returnData;
+	}
 } 

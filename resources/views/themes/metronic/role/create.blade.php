@@ -29,12 +29,13 @@
       <div class="portlet light portlet-fit portlet-form bordered">
           <div class="portlet-body">
               <!-- BEGIN FORM-->
-              <form action="#" class="form-horizontal">
+              <form action="{{route('role.store')}}" class="form-horizontal" method="post">
+                  {!! csrf_field() !!}
                   <div class="form-body">
                       <div class="form-group form-md-line-input">
                           <label class="col-md-2 control-label" for="form_control_1">角色名称</label>
                           <div class="col-md-8">
-                              <input type="text" class="form-control" placeholder="">
+                              <input type="text" class="form-control" placeholder="" name="name">
                               <div class="form-control-focus"> </div>
                               <span class="help-block">Some help goes here...</span>
                           </div>
@@ -42,7 +43,7 @@
                       <div class="form-group form-md-line-input">
                           <label class="col-md-2 control-label" for="form_control_1">slug</label>
                           <div class="col-md-8">
-                              <input type="text" class="form-control" placeholder="">
+                              <input type="text" class="form-control" placeholder="" name="slug">
                               <div class="form-control-focus"> </div>
                               <span class="help-block">Some help goes here...</span>
                           </div>
@@ -50,7 +51,7 @@
                       <div class="form-group form-md-line-input">
                           <label class="col-md-2 control-label" for="form_control_1">level</label>
                           <div class="col-md-8">
-                              <input type="text" class="form-control" placeholder="">
+                              <input type="text" class="form-control" placeholder="" name="level">
                               <div class="form-control-focus"> </div>
                               <span class="help-block">Some help goes here...</span>
                           </div>
@@ -108,7 +109,7 @@
                   <div class="form-actions">
                       <div class="row">
                           <div class="col-md-offset-3 col-md-8">
-                              <a href="javascript:;" class="btn green">保存</a>
+                              <button class="btn green">保存</button>
                               <a href="javascript:;" class="btn default">清空</a>
                           </div>
                       </div>

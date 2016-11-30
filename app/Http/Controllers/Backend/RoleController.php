@@ -60,7 +60,12 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $results = $this->service->store();
+        if($results['result']){
+            return redirect()->route('role.index');
+        }else{
+            return redirect()->back();
+        }
     }
 
     /**
@@ -82,7 +87,11 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $results = $this->service->edit($id);
+
+        $role = $results['role'];
+        $permissions = $results['permissions'];
+        return view($this->getview('edit'), compact('role', 'permissions'));
     }
 
     /**
