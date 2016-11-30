@@ -45,7 +45,11 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view($this->getView('create'));
+        $results = $this->service->create();
+
+        $permissions = $results['permissions'];
+
+        return view($this->getView('create'), compact('permissions'));
     }
 
     /**

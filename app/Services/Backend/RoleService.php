@@ -3,15 +3,21 @@
 namespace App\Services\Backend;
 
 use App\Repositories\Eloquent\RoleRepositoryEloquent;
+use App\Repositories\Eloquent\PermissionRepositoryEloquent;
 
 use App\Traits\ServiceTrait;
 class RoleService{
 	use ServiceTrait;
 
 	protected $roleRepo;
+	protected $permissionRepo;
 
-	public function __construct(RoleRepositoryEloquent $roleRepo){
+	public function __construct(
+		RoleRepositoryEloquent $roleRepo,
+		PermissionRepositoryEloquent $permissionRepo
+	){
 		$this->roleRepo = $roleRepo;
+		$this->permissionRepo = $permissionRepo;
 	}
 
 	public function datatables(){
@@ -102,7 +108,6 @@ class RoleService{
 		return $returnData;
 	}
 
-
 	public function deleteMore(){
 		$returnData = [
 			'result' => false,
@@ -178,5 +183,9 @@ class RoleService{
 			]);
 		}
 		return $returnData;
+	}
+
+	public function create(){
+		$this->permissionRepo->all();
 	}
 }
