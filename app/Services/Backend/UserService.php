@@ -2,6 +2,7 @@
 
 namespace App\Services\Backend;
 
+use App\Repositories\Eloquent\UserRepositoryEloquent;
 use App\Repositories\Eloquent\RoleRepositoryEloquent;
 use App\Repositories\Eloquent\PermissionRepositoryEloquent;
 
@@ -11,16 +12,19 @@ use App\Repositories\Criteria\Role\StatusActiveCriteria;
 
 use DB, Exception;
 
-class RoleService{
+class UserService{
 	use ServiceTrait;
 
+	protected $userRepo;
 	protected $roleRepo;
 	protected $permissionRepo;
 
 	public function __construct(
+		UserRepositoryEloquent $userRepo,
 		RoleRepositoryEloquent $roleRepo,
 		PermissionRepositoryEloquent $permissionRepo
 	){
+		$this->userRepo = $userRepo;
 		$this->roleRepo = $roleRepo;
 		$this->permissionRepo = $permissionRepo;
 	}
@@ -39,14 +43,9 @@ class RoleService{
 		    $wheres['name'] = $name;
 		}
 
-		$slug = request('slug', '');
-		if($slug){
-		    $wheres['slug'] = $slug;
-		}
-
-		$description = request('description', '');
-		if($description){
-		    $wheres['description'] = $description;
+		$email = request('email', '');
+		if($email){
+		    $wheres['email'] = $email;
 		}
 
 		$created_at = request('created_at', '');
@@ -54,9 +53,9 @@ class RoleService{
 		    $wheres['created_at'] = $created_at;
 		}
 
-		$datas = $this->roleRepo->datatables($wheres, $limit, $offset);
+		$datas = $this->userRepo->datatables($wheres, $limit, $offset);
 
-		$count = $this->roleRepo->datatablesCount($wheres);
+		$count = $this->userRepo->datatablesCount($wheres);
 
 		return [
             'draw' => $draw,
@@ -73,10 +72,10 @@ class RoleService{
 		];
 
 		try {
-			$info = $this->roleRepo->find($id);
+			$info = $this->userRepo->find($id);
 			
 			if($info){
-				if($this->roleRepo->delete($id)){
+				if($this->userRepo->delete($id)){
 					$returnData = array_merge($returnData, [
 	                    'result' => true,
 	                    'message' => '删除成功',
@@ -104,7 +103,7 @@ class RoleService{
 			'message' => '恢复失败',
 		];
 
-		if($this->roleRepo->restore($id)){
+		if($this->userRepo->restore($id)){
 			$returnData = array_merge($returnData, [
 				'result' => true,
 				'message' => '恢复成功'
@@ -120,7 +119,7 @@ class RoleService{
 		];
 		$ids = request('ids', []);
 		if(!empty($ids)){
-			if($this->roleRepo->deleteMore($ids)){
+			if($this->userRepo->deleteMore($ids)){
 				$returnData = array_merge($returnData, [
 					'result' => true,
 					'message' => ' 删除成功'
@@ -147,7 +146,7 @@ class RoleService{
 		$ids = request('ids', []);
 
 		if(!empty($ids)){
-			if($this->roleRepo->restoreMore($ids)){
+			if($this->userRepo->restoreMore($ids)){
 				$returnData = array_merge($returnData, [
 					'result' => true,
 					'message' => ' 恢复成功'
@@ -172,7 +171,7 @@ class RoleService{
 		];
 		$ids = request('ids', []);
 		if(!empty($ids)){
-			if($this->roleRepo->destroyMore($ids)){
+			if($this->userRepo->destroyMore($ids)){
 				$returnData = array_merge($returnData, [
 					'result' => true,
 					'message' => ' 彻底删除成功'
@@ -191,6 +190,8 @@ class RoleService{
 	}
 
 	public function create(){
+		$roles = $this->roleRepo->all();
+
 		$permissions = $this->permissionRepo->with(['prePermissions'])->all();
 
 		$dealPermissions = [];
@@ -199,6 +200,7 @@ class RoleService{
 		}
 
 		return [
+			'roles' => $roles,
 			'permissions' => $dealPermissions
 		];
 	}
@@ -228,16 +230,23 @@ class RoleService{
 				$data = request()->all();
 
 				try {
-					$role = $this->roleRepo->create($data);
+					$user = $this->userRepo->create($data);
 				} catch (Exception $e) {
-					throw new Exception("角色创建失败");
+					throw new Exception("用户创建失败");
 				}
 
 				try {
-					$permissionIds = request('permission', []);
-					$role->permissions()->attach($permissionIds);	
+					$roleIds = request('role', []);
+					$user->roles()->attach($roleIds);	
 				} catch (Exception $e) {
-					throw new Exception("角色绑定权限失败");
+					throw new Exception("用户绑定角色失败");
+				}	
+
+				try {
+					$permissionIds = request('permission', []);
+					$user->userPermissions()->attach($permissionIds);	
+				} catch (Exception $e) {
+					throw new Exception("用户绑定权限失败");
 				}	
 
 				return [
@@ -259,13 +268,15 @@ class RoleService{
 		$returnData = [
 			'result' => false,
 			'message' => '获取角色信息失败',
-			'role' => '',
+			'user' => '',
+			'roles' => collect([]),
 			'permissions' => collect([]),
 		];
 
 		try {
-			$role = $this->roleRepo->skipCriteria()->with('permissions')->find($id);
+			$user = $this->userRepo->skipCriteria()->with(['roles', 'userPermissions'])->find($id);
 
+			$roles = $this->roleRepo->all();
 			$permissions = $this->permissionRepo->with(['prePermissions'])->all();
 
 			$dealPermissions = [];
@@ -276,7 +287,8 @@ class RoleService{
 			$returnData = array_merge($returnData, [
 				'result' => true,
 				'message' => '获取成功',
-				'role' => $role,
+				'user' => $user,
+				'roles' => $roles,
 				'permissions' => $dealPermissions
 			]);
 		} catch (Exception $e) {
@@ -289,27 +301,34 @@ class RoleService{
 	public function update($id){
 		$returnData = [
 			'result' => false,
-			'message' => '角色修改失败',
+			'message' => '用户修改失败',
 		];
 
 		try {
 			$exception = DB::transaction(function() use ($id){
 				try {
 					$data = request()->all();
-					$role = $this->roleRepo->update($data, $id);
+					$user = $this->userRepo->update($data, $id);
 				} catch (Exception $e) {
 					throw new Exception("角色修改失败");
 				}
 
 				try {
-					$permissionIds = request('permission', []);
-					$role->permissions()->sync($permissionIds);
+					$roleIds = request('role', []);
+					$user->roles()->sync($roleIds);
 				} catch (Exception $e) {
-					throw new Exception("角色绑定权限失败");
+					throw new Exception("用户绑定角色失败");
+				}
+
+				try {
+					$permissionIds = request('permission', []);
+					$user->userPermissions()->sync($permissionIds);
+				} catch (Exception $e) {
+					throw new Exception("用户绑定权限失败");
 				}
 				return [
 					'result' => true,
-					'message' => '角色修改成功'
+					'message' => '用户修改成功'
 				];
 			});
 			$returnData = array_merge($returnData, $exception);

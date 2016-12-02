@@ -22,4 +22,7 @@ $router->group(['namespace' => 'Backend', 'middleware' => ['menu.permission']], 
 	
 	/*角色*/
 	require(__DIR__ . '/backend/roleRoute.php');
+
+	/*用户*/
+	require(__DIR__ . '/backend/userRoute.php');
 });

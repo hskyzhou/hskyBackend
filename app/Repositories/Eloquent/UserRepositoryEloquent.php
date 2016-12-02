@@ -5,8 +5,8 @@ namespace App\Repositories\Eloquent;
 use Illuminate\Container\Container as Application;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Repositories\Contracts\RoleRepository;
-use App\Repositories\Models\Role;
+use App\Repositories\Contracts\UserRepository;
+use App\User;
 
 use LaraveRedis, Carbon\Carbon;
 
@@ -16,7 +16,7 @@ use App\Repositories\Criteria\Role\StatusActiveCriteria;
  * Class RoleRepositoryEloquent
  * @package namespace App\Repositories\Eloquent;
  */
-class RoleRepositoryEloquent extends BaseRepository implements RoleRepository{
+class UserRepositoryEloquent extends BaseRepository implements UserRepository{
     public function __construct(Application $app){
         parent::__construct($app);
     }
@@ -28,7 +28,7 @@ class RoleRepositoryEloquent extends BaseRepository implements RoleRepository{
      */
     public function model()
     {
-        return Role::class;
+        return User::class;
     }
 
     /* 权限datatables */
@@ -40,9 +40,7 @@ class RoleRepositoryEloquent extends BaseRepository implements RoleRepository{
             return [
                 'checkbox' => $this->createCheckbox($id),
                 'name' => $item->name,
-                'slug' => $item->slug,
-                'description' => $item->description,
-                'position' => $item->position,
+                'email' => $item->email,
                 'created_at' => $item->created_at->toDateString(),
                 'button' => $this->createButton($id, $item->status),
             ];
@@ -61,11 +59,10 @@ class RoleRepositoryEloquent extends BaseRepository implements RoleRepository{
 
         $likeWhere = [
             $this->model->getPropName(),
-            $this->model->getPropDescription()
         ];
 
         $eqWhere = [
-            $this->model->getPropSlug(),
+            $this->model->getPropEmail(),
         ];
 
         $dateWhere = [
@@ -97,10 +94,10 @@ class RoleRepositoryEloquent extends BaseRepository implements RoleRepository{
     }
 
     private function createButton($id, $status){
-        $updateUrl = route('role.edit', [$id]);
-        $destroyUrl = route('role.destroy', [$id]);
-        $deleteUrl = route('role.delete', [$id]);
-        $restoreUrl = route('role.restore', [$id]);
+        $updateUrl = route('user.edit', [$id]);
+        $destroyUrl = route('user.destroy', [$id]);
+        $deleteUrl = route('user.delete', [$id]);
+        $restoreUrl = route('user.restore', [$id]);
 
         $btnUpdate = "<a class='btn yellow btn-outline sbold' href='{$updateUrl}'><i class='fa fa-pencil'></i></a>";
         $btnOther = "";

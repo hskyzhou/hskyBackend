@@ -1,18 +1,18 @@
 <?php 
 
-Breadcrumbs::register('role.index', function($breadcrumbs) {
+Breadcrumbs::register('user.index', function($breadcrumbs) {
     $breadcrumbs->push('Index', url('/'));
     $breadcrumbs->push('权限管理');
     $breadcrumbs->push('权限管理');
 });
 
-Breadcrumbs::register('role.create', function($breadcrumbs) {
+Breadcrumbs::register('user.create', function($breadcrumbs) {
     $breadcrumbs->push('Index', url('/'));
     $breadcrumbs->push('权限管理');
     $breadcrumbs->push('权限管理');
 });
 
-Breadcrumbs::register('role.edit', function($breadcrumbs) {
+Breadcrumbs::register('user.edit', function($breadcrumbs) {
     $breadcrumbs->push('Index', url('/'));
     $breadcrumbs->push('权限管理');
     $breadcrumbs->push('权限管理');

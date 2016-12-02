@@ -8,7 +8,6 @@ use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Repositories\Contracts\PermissionRepository;
 use App\Repositories\Models\Permission;
-use App\Validators\PermissionValidator;
 
 use LaraveRedis;
 use Carbon\Carbon;

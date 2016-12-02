@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Services\Backend\RoleService as Service;
+use App\Services\Backend\UserService as Service;
 
-class RoleController extends Controller
+class UserController extends Controller
 {
     use \App\Traits\ControllerTrait;
     
@@ -20,23 +20,19 @@ class RoleController extends Controller
         $this->service = $service;
         $this->folder = $this->getTheme() . $this->getModule();
     }
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(){
         return view($this->getView('index'));
     }
 
-    /* datatables 获取数据*/
     public function datatables(){
         $returnData = $this->service->datatables();
         return response()->json($returnData);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -46,9 +42,10 @@ class RoleController extends Controller
     {
         $results = $this->service->create();
 
+        $roles = $results['roles'];
         $permissions = $results['permissions'];
-
-        return view($this->getView('create'), compact('permissions'));
+        return view($this->getView('create'), compact('roles', 'permissions'));
+        
     }
 
     /**
@@ -61,8 +58,9 @@ class RoleController extends Controller
     {
         $results = $this->service->store();
         if($results['result']){
-            return redirect()->route('role.index');
+            return redirect()->route('user.index');
         }else{
+            flash($results['message'], 'error');
             return redirect()->back();
         }
     }
@@ -88,10 +86,11 @@ class RoleController extends Controller
     {
         $results = $this->service->edit($id);
 
-        $role = $results['role'];
+        $user = $results['user'];
+        $roles = $results['roles'];
         $permissions = $results['permissions'];
 
-        return view($this->getview('edit'), compact('role', 'permissions'));
+        return view($this->getView('edit'), compact('user', 'roles', 'permissions'));
     }
 
     /**
@@ -105,7 +104,7 @@ class RoleController extends Controller
     {
         $results = $this->service->update($id);
         if($results['result']){
-            return redirect()->route('role.index');
+            return redirect()->route('user.index');
         }else{
             flash($results['message'], 'error');
             return redirect()->back();

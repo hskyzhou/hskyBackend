@@ -187,6 +187,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,                       //debugbar调试
         Yajra\Datatables\DatatablesServiceProvider::class,              //datatables
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,             //Breadcrumb
+        Laracasts\Flash\FlashServiceProvider::class,                    //Flash
     ],
 
     /*

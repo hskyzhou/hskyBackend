@@ -59,6 +59,13 @@
                             <span class="selected"></span>
                         </a>
                     </li>
+                    <li class="nav-item start">
+                        <a href="{{route('user.index')}}" class="nav-link ">
+                            <i class="icon-bar-chart"></i>
+                            <span class="title">用户管理</span>
+                            <span class="selected"></span>
+                        </a>
+                    </li>
                     <li class="nav-item start ">
                         <a href="dashboard_2.html" class="nav-link ">
                             <i class="icon-bulb"></i>

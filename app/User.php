@@ -20,7 +20,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'status',
     ];
 
     /**
@@ -40,5 +40,28 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
     public function getPermissions()
     {
         return (!$this->permissions) ? $this->permissions = $this->rolePermissions()->get()->merge($this->userPermissions()->get()) : $this->permissions;
+    }
+
+    public function scopeActive($query){
+        return $query->where('status', getStatusActive());
+    }
+    public function scopeClose($query){
+        return $query->where('status', getStatusClose());
+    }
+
+    public function getPropName(){
+        return 'name';
+    }
+
+    public function getPropEmail(){
+        return 'email';
+    }
+
+    public function getPropCreatedat(){
+        return 'created_at';
+    }
+
+    public function getPropStatus(){
+        return 'status';
     }
 }

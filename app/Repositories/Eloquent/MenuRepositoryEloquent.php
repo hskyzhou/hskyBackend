@@ -6,7 +6,6 @@ use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Repositories\Contracts\MenuRepository;
 use App\Repositories\Models\Menu;
-use App\Validators\MenuValidator;
 
 /**
  * Class MenuRepositoryEloquent

@@ -1,8 +1,24 @@
 <?php
 namespace App\Presenters\Backend;
 
-class RolePresenter{
-	public function showPermissions($permissions, $role = ''){
+class UserPresenter{
+
+	public function showRoles($roles, $user = ''){
+		$str = "";
+
+		if(!$roles->isEmpty()){
+			foreach($roles as $role){
+				if($user && $user->roles->contains($role->id)){
+					$str .= "<option value='".$role->id."' selected>".$role->name."</option>";
+				}else{
+					$str .= "<option value='".$role->id."'>".$role->name."</option>";
+				}
+			}			
+		}
+		return $str;
+	}
+
+	public function showPermissions($permissions, $user = ''){
 		$str = "";
 		foreach($permissions as $key => $permission){
 			$str .= "<tr>";
@@ -10,7 +26,7 @@ class RolePresenter{
             $str .= "	<td>";
             if(is_array($permission)){
             	foreach($permission as $key => $val){
-            		if($role && $role->permissions->contains($val['id'])){
+            		if($user && $user->userPermissions->contains($val['id'])){
 						$str .= "<input type='checkbox' class='group-checkable' name='permission[]' value='{$val['id']}' checked >{$val['name']}";
             		}else{
 						$str .= "<input type='checkbox' class='group-checkable' name='permission[]' value='{$val['id']}'>{$val['name']}";
