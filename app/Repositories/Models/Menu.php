@@ -12,4 +12,11 @@ class Menu extends Model implements Transformable
 
     protected $fillable = [];
 
+    public function parentMenu(){
+    	return $this->belongsToMany(Menu::class, 'menu_relations', 'menu_id', 'menu_parent_id');
+    }
+
+    public function sonMenus(){
+    	return $this->belongsToMany(Menu::class, 'menu_relations', 'menu_parent_id', 'menu_id');
+    }
 }

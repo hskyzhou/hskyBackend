@@ -66,6 +66,13 @@
                             <span class="selected"></span>
                         </a>
                     </li>
+                    <li class="nav-item start">
+                        <a href="{{route('menu.index')}}" class="nav-link ">
+                            <i class="icon-bar-chart"></i>
+                            <span class="title">菜单管理</span>
+                            <span class="selected"></span>
+                        </a>
+                    </li>
                     <li class="nav-item start ">
                         <a href="dashboard_2.html" class="nav-link ">
                             <i class="icon-bulb"></i>

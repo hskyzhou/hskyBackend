@@ -7,3 +7,6 @@
 
 	/*用户*/
 	require __DIR__ . '/breadcrumbs/user.php';
+
+	/*菜单*/
+	require __DIR__ . '/breadcrumbs/menu.php';

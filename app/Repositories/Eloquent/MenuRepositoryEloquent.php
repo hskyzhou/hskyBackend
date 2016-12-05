@@ -22,8 +22,6 @@ class MenuRepositoryEloquent extends BaseRepository implements MenuRepository{
         return Menu::class;
     }
 
-    
-
     /**
      * Boot up the repository, pushing criteria
      */

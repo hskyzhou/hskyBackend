@@ -25,4 +25,7 @@ $router->group(['namespace' => 'Backend', 'middleware' => ['menu.permission']], 
 
 	/*用户*/
 	require(__DIR__ . '/backend/userRoute.php');
+
+	/*菜单*/
+	require(__DIR__ . '/backend/menuRoute.php');
 });
