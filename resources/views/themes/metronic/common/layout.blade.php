@@ -135,7 +135,7 @@
     <script src="{{asset('themes/metronic/layouts/layout/scripts/demo.min.js')}}" type="text/javascript"></script>
     <!-- END THEME LAYOUT SCRIPTS -->
     <script type="text/javascript">
-        App.setAssetsPath('../themes/metronic/');
+        App.setAssetsPath('./themes/metronic/');
     </script>
     @yield('js')
   </body>

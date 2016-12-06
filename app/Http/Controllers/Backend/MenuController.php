@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\Backend\MenuRequest;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -39,7 +40,8 @@ class MenuController extends Controller{
      */
     public function create(){
         $results = $this->service->create();
-        return view($this->getView('create'));
+        $parentMenu = $results['parentMenu'];
+        return view($this->getView('create'), compact('parentMenu'));
     }
 
     /**
@@ -48,8 +50,10 @@ class MenuController extends Controller{
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request){
-        //
+    public function store(MenuRequest $request){
+        $results = $this->service->store();
+
+        return response()->json($results);
     }
 
     /**
@@ -69,7 +73,11 @@ class MenuController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function edit($id){
-        //
+        $results = $this->service->edit($id);
+        $menuInfo = $results['menuInfo'];
+        $parentMenu = $results['parentMenu'];
+
+        return view($this->getView('edit'), compact('menuInfo', 'parentMenu'));
     }
 
     /**
@@ -79,8 +87,9 @@ class MenuController extends Controller{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id){
-        //
+    public function update(MenuRequest $request, $id){
+        $results = $this->service->update($id);
+        return response()->json($results);
     }
 
     /**
@@ -90,6 +99,7 @@ class MenuController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function destroy($id){
-        //
+        $results = $this->service->destroy($id);
+        return response()->json($results);
     }
 }

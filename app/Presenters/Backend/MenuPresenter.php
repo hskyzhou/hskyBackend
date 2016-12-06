@@ -37,8 +37,8 @@ class MenuPresenter{
 			if($level == 1){
 		        $menuStr .= '		<a href="'.route('menu.create', ['id' => $menu->id]).'" class="addMenu" data-target="#ajax" data-toggle="modal"><span class="fa fa-plus"></span></a>';
 			}
-	        $menuStr .= '		<a class="editMenu"><span class="fa fa-pencil"></span></a>';
-	        $menuStr .= '		<a class="deleteMenu"><span class="fa fa-trash"></span></a>';
+	        $menuStr .= '		<a href="'.route('menu.edit', ['id' => $menu->id]).'" class="editMenu" data-target="#ajax" data-toggle="modal"><span class="fa fa-pencil"></span></a>';
+	        $menuStr .= '		<a data-url="'.route('menu.destroy', [$menu->id]).'" class="deleteMenu"><span class="fa fa-trash"></span></a>';
 			$menuStr .= '	</div>';
 			$menuStr .= '</div>';
 
