@@ -25,26 +25,10 @@
 @endsection
 
 @section('content')
-<h3 class="page-title"> Nestable List
-  <small>Drag & drop hierarchical list with mouse and touch compatibility</small>
-</h3>
+<h3 class="page-title">菜单管理</h3>
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-6">
         <div class="portlet light bordered">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="icon-bubble font-purple"></i>
-                    <span class="caption-subject font-purple sbold uppercase">Nestable List 3</span>
-                </div>
-                <div class="actions">
-                    <div class="btn-group btn-group-devided" data-toggle="buttons">
-                        <label class="btn btn-transparent grey-salsa btn-circle btn-sm active">
-                            <input type="radio" name="options" class="toggle" id="option1">New</label>
-                        <label class="btn btn-transparent grey-salsa btn-circle btn-sm">
-                            <input type="radio" name="options" class="toggle" id="option2">Returning</label>
-                    </div>
-                </div>
-            </div>
             <div class="portlet-body">
                 {!! $presenter->showMenus($manageMenus) !!}
             </div>
@@ -59,7 +43,24 @@
 <script>
 	$('#nestable_list_3').nestable().on('change', function(){
     $this = $(this);
+    var url = $this.data('url');
     console.log(window.JSON.stringify($this.nestable('serialize')));
+    $.ajax({
+      url: "",
+      type: 'default GET (Other values: POST)',
+      dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+      data: {param1: 'value1'},
+    })
+    .done(function() {
+      console.log("success");
+    })
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      console.log("complete");
+    });
+    
   });
 
   $(document).on('click', '.createMenu', function(){
@@ -97,6 +98,7 @@
       layer.msg(response.message);
       if(response.result){
         $("#ajax").modal('hide');
+        location.reload();
       }
     })
     .fail(function(response) {
@@ -147,6 +149,7 @@
     .done(function(response) {
       layer.msg(response.message);
       if(response.result){
+        location.reload();
         $("#ajax").modal('hide');
       }
     })
@@ -183,6 +186,7 @@
           success : function(response){
             layer.msg(response.message);
             if(response.result){
+              location.reload();
             }
           },
           error : function(response){

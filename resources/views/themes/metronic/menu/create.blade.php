@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                <form role="form" class="form-horizontal">
+                <form role="form" class="form-horizontal" method="post">
                     <input class="form-add" type="hidden" name="parent_menu_id" value="{{$parentMenu->id}}">
                     <div class="form-body">
                         <div class="form-group form-md-line-input">

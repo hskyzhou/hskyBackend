@@ -7,8 +7,9 @@ class MenuPresenter{
 	public function showMenus($menus){
 		$str = "";
 		$menuStr = "";
+		$url = route('menu.sort');
 		if(!$menus->isEmpty()){
-			$str .= '<div class="dd" id="nestable_list_3">';
+			$str .= '<div class="dd" id="nestable_list_3" data-url="">';
             $str .= '	<ol class="dd-list">';
 			$this->dealMenus($menus, 1, $menuStr);
 			$str .= $menuStr;

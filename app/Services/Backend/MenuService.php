@@ -6,6 +6,8 @@ use App\Repositories\Eloquent\MenuRepositoryEloquent;
 
 use DB, Exception;
 
+use App\Repositories\Criteria\Menu\OrderBySortAscCriteria;
+
 class MenuService{
 
 	protected $menuRepo;
@@ -17,6 +19,7 @@ class MenuService{
 	}
 
 	public function index(){
+		$this->menuRepo->pushCriteria(OrderBySortAscCriteria::class);
 		$menus = $this->menuRepo->with('sonMenus')->all()->filter(function($item, $key){
 			if(!$item->sonMenus->isEmpty()){
 				return true;
@@ -108,7 +111,7 @@ class MenuService{
 			'message' => '菜单删除失败',
 		];
 
-		
+
 		if($this->menuRepo->delete($id)){
 			$returnData = array_merge($returnData, [
 				'result' => true,
