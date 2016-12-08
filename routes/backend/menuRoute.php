@@ -32,6 +32,11 @@ $router->group([], function($router){
 			'uses' => 'MenuController@destroyMore',
 			'as' => 'destroy.more'
 		]);
+
+		$router->post('sort', [
+			'uses' => 'MenuController@sort',
+			'as' => 'sort'
+		]);
 	});
 
 	$router->resource('menu', 'MenuController');

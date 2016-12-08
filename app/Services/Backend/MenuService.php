@@ -3,6 +3,7 @@
 namespace App\Services\Backend;
 
 use App\Repositories\Eloquent\MenuRepositoryEloquent;
+use App\Repositories\Eloquent\MenuRelationRepositoryEloquent;
 
 use DB, Exception;
 
@@ -11,23 +12,33 @@ use App\Repositories\Criteria\Menu\OrderBySortAscCriteria;
 class MenuService{
 
 	protected $menuRepo;
+	protected $menuRelationRepo;
 
 	public function __construct(
-		MenuRepositoryEloquent $menuRepo
+		MenuRepositoryEloquent $menuRepo,
+		MenuRelationRepositoryEloquent $menuRelationRepo
 	){
 		$this->menuRepo = $menuRepo;
+		$this->menuRelationRepo = $menuRelationRepo;
 	}
 
 	public function index(){
+		$menuRelations = $this->menuRelationRepo->all()->keyBy('menu_id')->keys();
+
 		$this->menuRepo->pushCriteria(OrderBySortAscCriteria::class);
-		$menus = $this->menuRepo->with('sonMenus')->all()->filter(function($item, $key){
-			if(!$item->sonMenus->isEmpty()){
+		$menus = $this->menuRepo->with('sonMenus')->all()->filter(function($item, $key) use ($menuRelations){
+			if(!$menuRelations->contains($item->id)){
 				return true;
 			}
+
+		 	if(!$item->sonMenus->isEmpty() && !$menuRelations->contains($item->id)){
+			 	return true;
+		 	}
 		});
 
 		return [
-			'menus' => $menus
+			'menus' => $menus,
+			'menuRelations' => $menuRelations
 		];
 	}
 
@@ -70,7 +81,6 @@ class MenuService{
 			});
 			$returnData = array_merge($returnData, $exception);
 		} catch (Exception $e) {
-			dd($e);
 			$returnData = array_merge($returnData, [
 				'message' => $e->getMessage(),
 			]);
@@ -121,5 +131,55 @@ class MenuService{
 
 		return $returnData;
 	}
-	
+
+	public function sort(){
+		$returnData = [
+			'result' => false,
+			'message' => '排序失败'
+		];
+		$data = request('data');
+		try {
+			$dataArray = json_decode($data, true);
+
+			if(is_array($dataArray)){
+				foreach($dataArray as $key => $data){
+					$this->dealSort($key, $data);
+				}
+			}
+
+			$returnData = array_merge($returnData, [
+				'result' => true,
+				'message' => '排序成功'
+			]);
+		} catch (Exception $e) {
+			
+		}
+
+		return $returnData;
+	}
+
+	private function dealSort($key, $data){
+		
+		$id = $data['id'];
+		$parentMenu = $this->menuRepo->find($id);
+		$parentMenu->sort = $key;
+		$parentMenu->save();
+		if(isset($data['children'])){
+			foreach($data['children'] as $sort => $child){
+				if(isset($child['children'])){
+					$this->dealSort($sort, $child);
+
+				}
+
+				$sorts[$id] = [
+					'sort' => $sort
+				];
+
+				$menuInfo = $this->menuRepo->find($child['id']);
+				$menuInfo->parentMenu()->sync($sorts);
+			}
+		}else{
+			$parentMenu->parentMenu()->sync([]);
+		}
+	}
 }

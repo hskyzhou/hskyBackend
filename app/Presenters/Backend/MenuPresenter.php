@@ -4,14 +4,14 @@ namespace App\Presenters\Backend;
 
 class MenuPresenter{
 	
-	public function showMenus($menus){
+	public function showMenus($menus, $menuRelations){
 		$str = "";
 		$menuStr = "";
 		$url = route('menu.sort');
 		if(!$menus->isEmpty()){
-			$str .= '<div class="dd" id="nestable_list_3" data-url="">';
+			$str .= '<div class="dd" id="nestable_list_3" data-url="'.route('menu.sort').'">';
             $str .= '	<ol class="dd-list">';
-			$this->dealMenus($menus, 1, $menuStr);
+			$this->dealMenus($menus, 1, $menuRelations, $menuStr);
 			$str .= $menuStr;
 			$str .= '	</ol>';
 			$str .= '</div>';
@@ -28,7 +28,7 @@ class MenuPresenter{
 	 * @param int $level
 	 * @param string $menuStr
 	 */
-	private function dealMenus($menus, $level, &$menuStr = ""){
+	private function dealMenus($menus, $level, $menuRelations, &$menuStr = ""){
 		foreach($menus as $menu){
 			$menuStr .= '<li class="dd-item dd3-item" data-id="'.$menu->id.'">';	
 			$menuStr .= '<div class="dd-handle dd3-handle"> </div>';
@@ -45,7 +45,7 @@ class MenuPresenter{
 
 			if(!$menu->sonMenus->isEmpty()){
 				$menuStr .= '<ol class="dd-list">';
-				$menuStr .= $this->dealMenus($menu->sonMenus, $level+1);
+				$menuStr .= $this->dealMenus($menu->sonMenus, $level+1, $menuRelations);
 				$menuStr .= '</ol>';
 			}
 			$menuStr .= '</li">';	

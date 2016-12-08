@@ -17,6 +17,6 @@ class Menu extends Model implements Transformable
     }
 
     public function sonMenus(){
-    	return $this->belongsToMany(Menu::class, 'menu_relations', 'menu_parent_id', 'menu_id')->orderBy('sort', 'asc');
+    	return $this->belongsToMany(Menu::class, 'menu_relations', 'menu_parent_id', 'menu_id')->withPivot('sort')->orderBy('pivot_sort', 'asc');
     }
 }

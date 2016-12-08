@@ -29,8 +29,9 @@ class MenuController extends Controller{
     public function index(){
         $results = $this->service->index();
         $manageMenus = $results['menus'];
+        $menuRelations = $results['menuRelations'];
 
-        return view($this->getView('index'), compact('manageMenus'));
+        return view($this->getView('index'), compact('manageMenus', 'menuRelations'));
     }
 
     /**
@@ -101,5 +102,11 @@ class MenuController extends Controller{
     public function destroy($id){
         $results = $this->service->destroy($id);
         return response()->json($results);
+    }
+
+    public function sort(){
+        $results = $this->service->sort();
+        return response()->json($results);
+
     }
 }

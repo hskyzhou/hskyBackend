@@ -30,7 +30,7 @@
     <div class="col-md-6">
         <div class="portlet light bordered">
             <div class="portlet-body">
-                {!! $presenter->showMenus($manageMenus) !!}
+                {!! $presenter->showMenus($manageMenus, $menuRelations) !!}
             </div>
         </div>
     </div>
@@ -42,19 +42,30 @@
 <script src="{{asset('themes/metronic//global/plugins/bootstrap-select/js/bootstrap-select.min.js')}}" type="text/javascript"></script>
 <script>
 	$('#nestable_list_3').nestable().on('change', function(){
+    App.blockUI({
+      target: ".modal-content"
+    });
     $this = $(this);
     var url = $this.data('url');
-    console.log(window.JSON.stringify($this.nestable('serialize')));
+    var data= window.JSON.stringify($this.nestable('serialize'));
     $.ajax({
-      url: "",
-      type: 'default GET (Other values: POST)',
-      dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
-      data: {param1: 'value1'},
+      url: url,
+      type: 'post',
+      dataType: 'json',
+      data: {
+        data : data
+      },
+      headers : {
+        "X-CSRF-TOKEN" : $("meta[name='csrf-token']").attr('content')
+      },
     })
-    .done(function() {
-      console.log("success");
+    .done(function(response) {
+      if(response.result){
+        // location.reload();
+        layer.msg(response.message);
+      }
     })
-    .fail(function() {
+    .fail(function(response) {
       console.log("error");
     })
     .always(function() {
