@@ -24,13 +24,17 @@
 		}
 
 		public function compose(View $view){
-			$userPermissions = $this->permissionRepo->userPermissions();
+			$routeName = request()->route()->getName();
+			$currentMenu = $this->menuRepo->findByField('route', $routeName)->first();
+
+			$userPermissions = $this->permissionRepo->userPermissions()->keys();
+
+			$parentMenus = $this->menuRelationRepo->parentMenus();
 
 			$menuRelations = $this->menuRelationRepo->all()->keyBy('menu_id')->keys();
 
 			$this->menuRepo->pushCriteria(OrderBySortAscCriteria::class);
 			$menus = $this->menuRepo->with(['sonMenus', 'permission'])->all()->filter(function($item, $key) use ($menuRelations, $userPermissions){
-
 				if($item->permission){
 					if($userPermissions->contains($item->permission->id)){
 						if(!$menuRelations->contains($item->id)){
@@ -41,9 +45,13 @@
 						 	return true;
 					 	}
 					}
+				}else{
+					return true;
 				}
 			});
 
 			$view->with('menus', $menus);
+			$view->with('parentMenus', $parentMenus);
+			$view->with('currentMenu', $currentMenu);
 		}
 	}

@@ -13,7 +13,7 @@
             </div>
             <div class="portlet-body form">
                 <form role="form" class="form-horizontal">
-                    <input class="form-add" type="hidden" name="parent_menu_id" value="{{$parentMenu->id}}">
+                    <input class="form-add" type="hidden" name="parent_menu_id" value="{{$parentMenu ? $parentMenu->id : ''}}">
                     <div class="form-body">
                         <div class="form-group form-md-line-input">
                             <label class="col-md-2 control-label" for="form_control_1">菜单名称</label>
@@ -26,7 +26,7 @@
                         <div class="form-group form-md-line-input">
                             <label class="col-md-2 control-label" for="form_control_1">父级菜单</label>
                             <div class="col-md-4">
-                                <input disabled type="text" class="form-control form-add" id="form_control_1" value="{{$parentMenu->title}}">
+                                <input disabled type="text" class="form-control form-add" id="form_control_1" value="{{$parentMenu ? $parentMenu->title : ''}}">
                             </div>
                         </div>
 

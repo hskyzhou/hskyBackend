@@ -40,7 +40,7 @@
                 <!-- END RESPONSIVE QUICK SEARCH FORM -->
             </li>
 
-            {!! $presenter->showMenus($menus) !!}
+            {!! $presenter->showMenus($menus, $parentMenus, $currentMenu) !!}
         </ul>
         <!-- END SIDEBAR MENU -->
         <!-- END SIDEBAR MENU -->

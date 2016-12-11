@@ -26,3 +26,9 @@ if(!function_exists('permissionRedisKey')){
 		return globalRedisKey() . "permission";
 	}
 }
+
+if(!function_exists('parentMenuRedisKey')){
+	function parentMenuRedisKey(){
+		return globalRedisKey() . "parent:menu";
+	}
+}

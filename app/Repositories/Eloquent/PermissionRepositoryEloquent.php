@@ -9,7 +9,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use App\Repositories\Contracts\PermissionRepository;
 use App\Repositories\Models\Permission;
 
-use LaraveRedis;
+use LaravelRedis;
 use Carbon\Carbon;
 
 use App\Repositories\Criteria\StatusActiveCriteria;
@@ -49,8 +49,8 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
             /*菜单权限*/
             $menuId = $menu->id;
             $key = menuPermissionRedisKey($menuId);
-            if(LaraveRedis::command('EXISTS', [$key])){
-                $menuPermissions = collect(json_decode(LaraveRedis::command('GET', [$key]), true));
+            if(LaravelRedis::command('EXISTS', [$key])){
+                $menuPermissions = collect(json_decode(LaravelRedis::command('GET', [$key]), true));
             }else{
                 $menuPermissions = $this->setMenuPermissions($menu);
             }
@@ -62,7 +62,7 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
     public function clearMenuPermissions($menu){
         $menuId = $menu->id;
         $key = menuPermissionRedisKey($menuId);
-        LaraveRedis::command('DELETE', [$key]);
+        LaravelRedis::command('DEL', [$key]);
     }
 
     public function setMenuPermissions($menu){
@@ -75,7 +75,7 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
         $prePermissions->push($menuPermission);
         $menuPermissions = $prePermissions->pluck('name', 'id');
 
-        LaraveRedis::command('SET', [$key, $menuPermissions]);
+        LaravelRedis::command('SET', [$key, $menuPermissions]);
 
         return $menuPermissions;
     }
@@ -100,8 +100,8 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
             $userId = $user->id;
             /*redis key*/
             $key = userPermissionRedisKey($userId);
-            if(LaraveRedis::command('EXISTS', [$key])){
-                $userPermissions = collect(json_decode(LaraveRedis::command('GET', [$key])));
+            if(LaravelRedis::command('EXISTS', [$key])){
+                $userPermissions = collect(json_decode(LaravelRedis::command('GET', [$key])));
             }else{
                 /*set redis data*/
                 $userPermissions = $this->setUserPermission($user);
@@ -115,7 +115,7 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
         $user = getUser($user);
         $userId = $user->id;
         $key = userPermissionRedisKey($userId);
-        LaraveRedis::command('DELETE', [$key]);
+        LaravelRedis::command('DEL', [$key]);
     }
 
     public function setUserPermission($user){
@@ -125,7 +125,7 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
 
         $userPermissions = $user->getPermissions()->pluck('name', 'id');
 
-        LaraveRedis::command('SET', [$key, $userPermissions]);
+        LaravelRedis::command('SET', [$key, $userPermissions]);
 
         return $userPermissions; 
     }
@@ -135,8 +135,8 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
     public function prePermissions(){
         /*redis key*/
         $key = permissionRedisKey();
-        if(LaraveRedis::command('EXISTS', [$key])){
-            $prePermissions = collect(json_decode(LaraveRedis::command('GET', [$key])));
+        if(LaravelRedis::command('EXISTS', [$key])){
+            $prePermissions = collect(json_decode(LaravelRedis::command('GET', [$key])));
         }else{
             /*set redis data*/
             $prePermissions = $this->setPrePermissions();
@@ -147,7 +147,7 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
 
     public function clearPrePermissions(){
         $key = permissionRedisKey();
-        LaraveRedis::command('DELETE', [$key]);
+        LaravelRedis::command('DEL', [$key]);
     }
 
     public function setPrePermissions(){
@@ -160,9 +160,8 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
         }
 
         $key = permissionRedisKey();
-        LaraveRedis::command('SET', [$key, $results]);
+        LaravelRedis::command('SET', [$key, $results]);
         return collect($results);
-
     }
 
     private function dealPrePermissions($datas, $permission){

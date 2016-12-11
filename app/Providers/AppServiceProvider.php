@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         /*菜单composer*/
-        view()->composer('themes.*', MenuComposer::class);
+        view()->composer('themes.*.sidebar', MenuComposer::class);
         view()->composer('*', ThemeComposer::class);
     }
 

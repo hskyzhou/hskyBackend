@@ -74,6 +74,8 @@ class MenuService{
 					throw new Exception("绑定父级菜单失败");
 				}
 
+				$this->menuRelationRepo->clearParentMenus();
+
 				return [
 					'result' => true,
 					'message' => '菜单添加成功'
@@ -106,6 +108,7 @@ class MenuService{
 
 		$data = request()->all();
 		if($this->menuRepo->update($data, $id)){
+			$this->menuRelationRepo->clearParentMenus();
 			$returnData = array_merge($returnData, [
 				'result' => true,
 				'message' => '菜单修改成功'
@@ -123,6 +126,8 @@ class MenuService{
 
 
 		if($this->menuRepo->delete($id)){
+			$this->menuRelationRepo->clearParentMenus();
+
 			$returnData = array_merge($returnData, [
 				'result' => true,
 				'message' => '菜单删除成功',		
@@ -147,6 +152,12 @@ class MenuService{
 				}
 			}
 
+			try {
+				
+				$this->menuRelationRepo->clearParentMenus();
+			} catch (Exception $e) {
+				dd($e);
+			}
 			$returnData = array_merge($returnData, [
 				'result' => true,
 				'message' => '排序成功'
@@ -168,7 +179,6 @@ class MenuService{
 			foreach($data['children'] as $sort => $child){
 				if(isset($child['children'])){
 					$this->dealSort($sort, $child);
-
 				}
 
 				$sorts[$id] = [
