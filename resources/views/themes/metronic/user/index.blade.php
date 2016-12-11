@@ -28,7 +28,7 @@
 @endsection
 
 @section('content')
-
+@parent
 <h3 class="page-title">
   <i class="icon-settings font-dark"></i> 
   <span class="caption-subject font-dark sbold uppercase">用户管理</span>

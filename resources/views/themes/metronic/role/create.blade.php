@@ -87,7 +87,6 @@
                           </div>
                       </div>
 
-
                       <div class="form-group form-md-line-input form-md-floating-label">
                         <label class="col-md-2 control-label" for="form_control_1">权限</label>
                       </div>

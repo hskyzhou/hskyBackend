@@ -58,9 +58,10 @@ class UserController extends Controller
     {
         $results = $this->service->store();
         if($results['result']){
+            flash($results['message'], 'success');
             return redirect()->route('user.index');
         }else{
-            flash($results['message'], 'error');
+            flash($results['message'], 'danger');
             return redirect()->back();
         }
     }
@@ -104,22 +105,12 @@ class UserController extends Controller
     {
         $results = $this->service->update($id);
         if($results['result']){
+            flash($results['message'], 'success');
             return redirect()->route('user.index');
         }else{
-            flash($results['message'], 'error');
+            flash($results['message'], 'danger');
             return redirect()->back();
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     /*逻辑删除*/
@@ -127,19 +118,24 @@ class UserController extends Controller
         return $this->service->delete($id);
     }
 
-    /*恢复*/
-    public function restore($id){
-        return $this->service->restore($id);
-    }
-
     /*删除多个*/
     public function deleteMore(){
         return $this->service->deleteMore();
     }
 
+    /*恢复*/
+    public function restore($id){
+        return $this->service->restore($id);
+    }
+
     /*恢复多个*/
     public function restoreMore(){
         return $this->service->restoreMore();
+    }
+
+    /*彻底删除单个*/
+    public function destroy($id){
+        return $this->service->destroy($id);
     }
 
     /*彻底删除多个*/

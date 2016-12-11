@@ -7,7 +7,7 @@ use App\Repositories\Eloquent\MenuRelationRepositoryEloquent;
 
 use DB, Exception;
 
-use App\Repositories\Criteria\Menu\OrderBySortAscCriteria;
+use App\Repositories\Criteria\OrderBySortAscCriteria;
 
 class MenuService{
 

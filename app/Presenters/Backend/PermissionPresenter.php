@@ -1,44 +1,33 @@
 <?php
-	namespace App\Presenters\Backend;
+namespace App\Presenters\Backend;
 
-	class PermissionPresenter{
-		public function permissionsManage($permissionsManage){
-			/*权限数据*/
-			$permissionData = $permissionsManage['data'];
-			/*权限关系*/
-			$permissionRelation = $permissionsManage['relation'];
+class PermissionPresenter{
+	public function showPermissions($permissions, $info = ''){
+		$str = "";
+		foreach($permissions as $key => $permission){
+			$str .= "<tr>";
+			$str .= "	<td>{$key}</td>";
+            $str .= "	<td>";
+            if(is_array($permission)){
+            	foreach($permission as $key => $val){
+            		if($info && $info->prePermissions->contains($val['id'])){
+						$str .= "<input type='checkbox' class='group-checkable' name='permission[]' value='{$val['id']}' checked >{$val['name']}";
+            		}else{
+						$str .= "<input type='checkbox' class='group-checkable' name='permission[]' value='{$val['id']}'>{$val['name']}";
+            		}
 
-			/*返回字符串*/
-			$str = '';
-
-			if($permissionData){
-				foreach($permissionData as $permissionKey => $permissionInfo){
-					$name = isset($permissionRelation[$permissionKey]) ? $permissionRelation[$permissionKey] : $permissionKey;
-			        $str .= '<li class="dd-item dd3-item" data-id="1">';
-			        $str .= '    <div class="dd-handle dd3-handle"></div>';
-			        $str .= '    <div class="dd3-content"> ';
-			        $str .= '    	<span class="content-class">'. $name .'</span>';
-					$str .= '			<div class="pull-right actions">';
-					$str .= '				<a class="btn btn-xs green" style="padding:0 0; margin-bottom: 7px;"><i class="fa fa-plus"></i></a>';
-					$str .= '				<a class="btn btn-xs red" style="padding:0 0; margin-bottom: 7px;"><i class="fa fa-times"></i></a>';
-					$str .= '			</div>';
-			        $str .= '    </div>';
-			        if($permissionInfo){
-				        $str .= '	 <ol class="dd-list">';
-			        	foreach($permissionInfo as $permissionValKey => $permissionVal){
-					        $str .= '    	<li class="dd-item dd3-item" data-id="3">';
-					        $str .= '       	<div class="dd-handle dd3-handle"></div>';
-					        $str .= '        	<div class="dd3-content">';
-					        
-					        $str .= '			</div>';
-					        $str .= '    	</li>';
-			        	}
-				        $str .= '	 </ol>';
-			        }
-			        $str .= '</li>';
+					if(!$val['childs']->isEmpty()){
+						$prePermissions = "";
+						foreach($val['childs'] as $child){
+							$prePermissions .= $child->name . "<br />";
+						}
+						$str .= "<a class='tooltips' data-html='true' data-container='body' data-placement='left' data-original-title='{$prePermissions}'>(前)</a>";
+					}
 				}
 			}
-
-			return $str;
+			$str .= "	</td>";
+			$str .= "</tr>";
 		}
-	}
+		return $str;
+	}	
+}

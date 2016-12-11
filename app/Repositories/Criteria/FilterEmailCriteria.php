@@ -1,16 +1,20 @@
 <?php
 
-namespace App\Repositories\Criteria\Role;
+namespace App\Repositories\Criteria;
 
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 /**
- * Class StatusActiveCriteria
- * @package namespace App\Repositories\Criteria\Role;
+ * Class FilterEmailCriteria
+ * @package namespace App\Repositories\Criteria;
  */
-class StatusActiveCriteria implements CriteriaInterface
+class FilterEmailCriteria implements CriteriaInterface
 {
+    protected $email;
+    public function __construct($email){
+        $this->email = $email;
+    }
     /**
      * Apply criteria in query repository
      *
@@ -21,6 +25,6 @@ class StatusActiveCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->where('status', getStatusActive());
+        return $model->where('email', $this->email);
     }
 }

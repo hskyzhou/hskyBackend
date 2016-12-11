@@ -29,6 +29,5 @@ class RolePresenter{
 			$str .= "</tr>";
 		}
 		return $str;
-		
 	}
 }

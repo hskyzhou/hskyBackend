@@ -2,6 +2,6 @@
 
 return [
 
-	'view' => 'themes/metronic/common/breadcrumb',
+	'view' => 'breadcrumbs::bootstrap3',
 
 ];

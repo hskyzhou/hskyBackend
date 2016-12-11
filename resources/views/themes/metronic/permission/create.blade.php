@@ -1,3 +1,10 @@
+@inject('presenter', 'App\Presenters\Backend\PermissionPresenter')
+@extends('themes.metronic.common.layout')
+
+@section('css')
+<link href="{{asset('themes/metronic/global/plugins/bootstrap-select/css/bootstrap-select.min.css')}}" rel="stylesheet" type="text/css" />
+@endsection
+@section('content')
 <div class="row">
     <div class="col-md-12">
         <!-- BEGIN SAMPLE FORM PORTLET-->
@@ -12,7 +19,8 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                <form role="form" class="form-horizontal">
+                <form role="form" class="form-horizontal" action="{{route('permission.store')}}" method="post">
+                    {!! csrf_field() !!}
                     <div class="form-body">
                         <div class="form-group form-md-line-input">
                             <label class="col-md-2 control-label" for="form_control_1">权限名称</label>
@@ -77,11 +85,28 @@
                                 <div class="form-control-focus"> </div>
                             </div>
                         </div>
+
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                          <label class="col-md-2 control-label" for="form_control_1">权限</label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                          <div class="col-md-8 col-md-offset-2">
+                            <table class="table table-bordered table-striped table-condensed flip-content">
+                              <thead class="flip-content">
+                                <th>模块</th> 
+                                <th>权限</th>
+                              </thead>
+                              <tbody>
+                                {!! $presenter->showPermissions($permissions) !!}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-offset-2 col-md-10">
-                                <button type="button" class="btn blue filter-store" data-href="{{route('permission.store')}}">提交</button>
+                                <button type="submit" class="btn blue">提交</button>
                             </div>
                         </div>
                     </div>
@@ -90,10 +115,14 @@
         </div>
     </div>
 </div>
+@endsection
 
+@section('js')
+<script src="{{asset('themes/metronic//global/plugins/bootstrap-select/js/bootstrap-select.min.js')}}" type="text/javascript"></script>
 <script>
   $('.bs-select').selectpicker({
           iconBase: 'fa',
           tickIcon: 'fa-check'
       });
 </script>
+@endsection

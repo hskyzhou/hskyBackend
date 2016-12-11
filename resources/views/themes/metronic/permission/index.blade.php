@@ -28,7 +28,7 @@
 @endsection
 
 @section('content')
-
+@parent
 <h3 class="page-title">
   <i class="icon-settings font-dark"></i> 
   <span class="caption-subject font-dark sbold uppercase">权限管理</span>
@@ -43,11 +43,14 @@
                 <div class="caption">
                 </div>
                 <div class="actions">
+                    <div class="btn-group">
+                      <a href="{{route('permission.create')}}" class="btn blue btn-outline btn-circle filter-add">
+                          <i class="fa fa-plus"></i>
+                          <span class="hidden-xs">添加</span>
+                      </a>
+                    </div>
                     <div class="btn-group btn-group-devided" data-toggle="buttons">
-                        <a href="{{route('permission.create')}}" class="btn blue btn-outline btn-circle filter-add" data-target='#ajax' data-toggle='modal'>
-                            <i class="fa fa-plus"></i>
-                            <span class="hidden-xs">添加</span>
-                        </a>
+                        
 
                         <a data-url="{{route('permission.delete.more')}}" class="btn red btn-outline btn-circle filter-delete-more" href="javascript:;">
                             <i class="fa fa-times"></i>

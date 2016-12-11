@@ -46,7 +46,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if($exception instanceof NoPermissionException){
-            abort(505, $exception->message);
+            abort(505, $exception->getMessage());
         }
         return parent::render($request, $exception);
     }

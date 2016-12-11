@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 
 use App\Services\Backend\PermissionService as Service;
 
+use Flash;
+
 class PermissionController extends Controller{
     use \App\Traits\ControllerTrait;
     
@@ -22,8 +24,7 @@ class PermissionController extends Controller{
     }
     
     public function index(){
-    	$permissionsManage = $this->service->permissionsManage();
-    	return view($this->getView('index'), compact('permissionsManage'));
+    	return view($this->getView('index'));
     }
 
     public function datatables(){
@@ -33,52 +34,74 @@ class PermissionController extends Controller{
     }
 
     public function create(){
-        return view($this->getView('add'));
+        $results = $this->service->create();
+        $permissions = $results['permissions'];
+        return view($this->getView('create'), compact('permissions'));
     }
 
     public function store(\App\Http\Requests\Backend\PermissionRequest $request){
-        return $this->service->store();
+        $results = $this->service->store();
+        if($results['result']){
+            flash($results['message'], 'success');
+            return redirect()->route('permission.index');
+        }else{
+            flash($results['message'], 'danger');
+            return redirect()->back();
+        }
     }
 
     public function edit($id){
-        $return = $this->service->edit($id);
+        $results = $this->service->edit($id);
+        
+        if($results['result']){
+            $info = $results['info'];
+            $permissions = $results['permissions'];
 
-        if($return['result']){
-            $info = $return['info'];
-            return view($this->getview('edit'), compact('info'));
+            return view($this->getview('edit'), compact('info', 'permissions'));
         }else{
-            return $return['message'];
+            return $results['message'];
         }
     }
 
     public function update(\App\Http\Requests\Backend\PermissionRequest $request, $id){
-        return $this->service->update($id);
+        $results = $this->service->update($id);
+
+        if($results['result']){
+            flash($results['message'], 'success');
+            return redirect()->route('permission.index');
+        }else{
+            flash($results['message'], 'danger');
+            return redirect()->back();
+        }
     }
 
-    public function destroy($id){
-        return $this->service->destroy($id);
-    }
-
+    /*临时删除单个*/
     public function delete($id){
         return $this->service->delete($id);
     }
 
-    public function restore($id){
-        return $this->service->restore($id);
-    }
-
-    /*删除多个*/
+    /*临时删除多个*/
     public function deleteMore(){
         return $this->service->deleteMore();
     }
 
-    /*恢复多个*/
-    public function restoreMore(){
-        return $this->service->restoreMore();
+    /*彻底删除单个*/
+    public function destroy($id){
+        return $this->service->destroy($id);
     }
 
     /*彻底删除多个*/
     public function destroyMore(){
         return $this->service->destroyMore();
+    }
+    
+    /*恢复单个*/
+    public function restore($id){
+        return $this->service->restore($id);
+    }
+
+    /*恢复多个*/
+    public function restoreMore(){
+        return $this->service->restoreMore();
     }
 }

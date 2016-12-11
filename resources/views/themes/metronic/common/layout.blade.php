@@ -68,7 +68,9 @@
             {!! Breadcrumbs::render() !!}
             <!-- END PAGE BAR -->
             <!-- BEGIN PAGE TITLE-->
-            @yield('content')
+            @section('content')
+                @include('themes.metronic.common.flash')
+            @show
           </div>
           <!-- END CONTENT BODY -->
         </div>

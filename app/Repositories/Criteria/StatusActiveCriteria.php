@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Repositories\Criteria\Permission;
+namespace App\Repositories\Criteria;
 
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 /**
  * Class StatusActiveCriteria
- * @package namespace App\Repositories\Criteria\Permission;
+ * @package namespace App\Repositories\Criteria;
  */
 class StatusActiveCriteria implements CriteriaInterface
 {

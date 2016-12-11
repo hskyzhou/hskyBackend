@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Repositories\Criteria\Menu;
+namespace App\Repositories\Criteria;
 
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 /**
- * Class OrderBySortAscCriteria
+ * Class StatusCloseCriteria
  * @package namespace App\Repositories\Criteria;
  */
-class OrderBySortAscCriteria implements CriteriaInterface
+class StatusCloseCriteria implements CriteriaInterface
 {
     /**
      * Apply criteria in query repository
@@ -21,6 +21,6 @@ class OrderBySortAscCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->orderBy('sort', 'asc');
+        return $model->where('status', getStatusClose());
     }
 }
