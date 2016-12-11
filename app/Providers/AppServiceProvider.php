@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+use App\Composers\MenuComposer;
+use App\Composers\ThemeComposer;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -14,7 +16,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         /*菜单composer*/
-        view()->composer('*', \App\Composers\MenuComposer::class);
+        view()->composer('themes.*', MenuComposer::class);
+        view()->composer('*', ThemeComposer::class);
     }
 
     /**

@@ -120,7 +120,7 @@ return [
     |
     */
 
-    'log' => env('APP_LOG', 'single'),
+    'log' => env('APP_LOG', 'daily'),
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
@@ -167,8 +167,6 @@ return [
          * Package Service Providers...
          */
 
-        //
-
         /*
          * Application Service Providers...
          */
@@ -188,6 +186,7 @@ return [
         Yajra\Datatables\DatatablesServiceProvider::class,              //datatables
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,             //Breadcrumb
         Laracasts\Flash\FlashServiceProvider::class,                    //Flash
+        Arcanedev\LogViewer\LogViewerServiceProvider::class,            //系统日志
     ],
 
     /*

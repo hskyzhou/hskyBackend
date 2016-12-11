@@ -1,3 +1,5 @@
+@inject('presenter', 'App\Presenters\Backend\LayoutPresenter')
+
 <div class="page-sidebar-wrapper">
     <!-- BEGIN SIDEBAR -->
     <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
@@ -37,96 +39,8 @@
                 </form>
                 <!-- END RESPONSIVE QUICK SEARCH FORM -->
             </li>
-            <li class="nav-item start active open">
-                <a href="javascript:;" class="nav-link nav-toggle">
-                    <i class="icon-home"></i>
-                    <span class="title">系统管理</span>
-                    <span class="selected"></span>
-                    <span class="arrow open"></span>
-                </a>
-                <ul class="sub-menu">
-                    <li class="nav-item start active open">
-                        <a href="{{route('permission.index')}}" class="nav-link ">
-                            <i class="icon-bar-chart"></i>
-                            <span class="title">权限管理</span>
-                            <span class="selected"></span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="{{route('role.index')}}" class="nav-link ">
-                            <i class="icon-bar-chart"></i>
-                            <span class="title">角色管理</span>
-                            <span class="selected"></span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="{{route('user.index')}}" class="nav-link ">
-                            <i class="icon-bar-chart"></i>
-                            <span class="title">用户管理</span>
-                            <span class="selected"></span>
-                        </a>
-                    </li>
-                    <li class="nav-item start">
-                        <a href="{{route('menu.index')}}" class="nav-link ">
-                            <i class="icon-bar-chart"></i>
-                            <span class="title">菜单管理</span>
-                            <span class="selected"></span>
-                        </a>
-                    </li>
-                    <li class="nav-item start ">
-                        <a href="dashboard_2.html" class="nav-link ">
-                            <i class="icon-bulb"></i>
-                            <span class="title">Dashboard 2</span>
-                            <span class="badge badge-success">1</span>
-                        </a>
-                    </li>
-                    <li class="nav-item start ">
-                        <a href="dashboard_3.html" class="nav-link ">
-                            <i class="icon-graph"></i>
-                            <span class="title">Dashboard 3</span>
-                            <span class="badge badge-danger">5</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="heading">
-                <h3 class="uppercase">Features</h3>
-            </li>
-            <li class="nav-item  ">
-                <a href="javascript:;" class="nav-link nav-toggle">
-                    <i class="icon-bulb"></i>
-                    <span class="title">Elements</span>
-                    <span class="arrow"></span>
-                </a>
-                <ul class="sub-menu">
-                    <li class="nav-item  ">
-                        <a href="elements_steps.html" class="nav-link ">
-                            <span class="title">Steps</span>
-                        </a>
-                    </li>
-                    <li class="nav-item  ">
-                        <a href="elements_lists.html" class="nav-link ">
-                            <span class="title">Lists</span>
-                        </a>
-                    </li>
-                    <li class="nav-item  ">
-                        <a href="elements_ribbons.html" class="nav-link ">
-                            <span class="title">Ribbons</span>
-                        </a>
-                    </li>
-                    <li class="nav-item  ">
-                        <a href="elements_overlay.html" class="nav-link ">
-                            <span class="title">Overlays</span>
-                        </a>
-                    </li>
-                    <li class="nav-item  ">
-                        <a href="elements_cards.html" class="nav-link ">
-                            <span class="title">User Cards</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            
+
+            {!! $presenter->showMenus($menus) !!}
         </ul>
         <!-- END SIDEBAR MENU -->
         <!-- END SIDEBAR MENU -->

@@ -12,6 +12,7 @@ use App\Repositories\Models\Permission;
 use LaraveRedis;
 use Carbon\Carbon;
 
+use App\Repositories\Criteria\StatusActiveCriteria;
 use App\Traits\EloquentTrait;
 /**
  * Class PermissionRepositoryEloquent
@@ -128,8 +129,63 @@ class PermissionRepositoryEloquent extends BaseRepository implements PermissionR
 
         return $userPermissions; 
     }
-    /*============================================*/
 
+    //|||||||||||||||||||||||||||||||||||||||||||||||||||||
+    /*前置权限*/
+    public function prePermissions(){
+        /*redis key*/
+        $key = permissionRedisKey();
+        if(LaraveRedis::command('EXISTS', [$key])){
+            $prePermissions = collect(json_decode(LaraveRedis::command('GET', [$key])));
+        }else{
+            /*set redis data*/
+            $prePermissions = $this->setPrePermissions();
+        }
+
+        return $prePermissions;
+    }
+
+    public function clearPrePermissions(){
+        $key = permissionRedisKey();
+        LaraveRedis::command('DELETE', [$key]);
+    }
+
+    public function setPrePermissions(){
+        $this->pushCriteria(StatusActiveCriteria::class);
+        $permissions = $this->model->with('prePermissions')->get()->keyBy('id');
+
+        $results = [];
+        foreach($permissions as $permissionId => $permission){
+            $results[$permissionId] = $this->dealPrePermissions($permissions, $permission);
+        }
+
+        $key = permissionRedisKey();
+        LaraveRedis::command('SET', [$key, $results]);
+        return collect($results);
+
+    }
+
+    private function dealPrePermissions($datas, $permission){
+        // echo '<pre>';
+        // print_r($permission->toArray());
+        $results = [];
+        $permissionId = $permission->id;
+        $results[] = $permissionId;
+        if(!$permission->prePermissions->isEmpty()){
+            foreach($permission->prePermissions as $prePermission){
+                $prePermissionId = $prePermission->id;
+                if(isset($datas[$prePermissionId])){
+                    $results = array_merge($results, $this->dealPrePermissions($datas, $datas[$prePermissionId]));
+                }else{
+                    $results[] = $prePermissionId;
+                    return $results;
+                }
+            }
+        }
+        return array_unique($results);
+    }
+
+    /*============================================*/
     /*显示权限列表*/
     public function permissionList(){
         $results = [];

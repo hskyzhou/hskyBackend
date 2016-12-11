@@ -69,7 +69,7 @@
             <!-- END PAGE BAR -->
             <!-- BEGIN PAGE TITLE-->
             @section('content')
-                @include('themes.metronic.common.flash')
+                @include('flash::message')
             @show
           </div>
           <!-- END CONTENT BODY -->
