@@ -7,6 +7,7 @@
 	use App\Repositories\Eloquent\PermissionRepositoryEloquent;
 
 	use App\Repositories\Criteria\OrderBySortAscCriteria;
+	use App\Repositories\Criteria\StatusActiveCriteria;
 
 	class MenuComposer{
 		protected $menuRepo;
@@ -34,14 +35,15 @@
 			$menuRelations = $this->menuRelationRepo->all()->keyBy('menu_id')->keys();
 
 			$this->menuRepo->pushCriteria(OrderBySortAscCriteria::class);
-			$menus = $this->menuRepo->with(['sonMenus', 'permission'])->all()->filter(function($item, $key) use ($menuRelations, $userPermissions){
+			$this->menuRepo->pushCriteria(StatusActiveCriteria::class);
+			$menus = $this->menuRepo->with(['activeSonMenus', 'permission'])->all()->filter(function($item, $key) use ($menuRelations, $userPermissions){
 				if($item->permission){
 					if($userPermissions->contains($item->permission->id)){
 						if(!$menuRelations->contains($item->id)){
 							return true;
 						}
 
-					 	if(!$item->sonMenus->isEmpty() && !$menuRelations->contains($item->id)){
+					 	if(!$item->activeSonMenus->isEmpty() && !$menuRelations->contains($item->id)){
 						 	return true;
 					 	}
 					}

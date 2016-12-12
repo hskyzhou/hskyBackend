@@ -99,6 +99,24 @@ class PermissionSeeder extends Seeder
                 'created_at' => $created_at,
                 'updated_at' => $updated_at
             ],
+            [
+                'name' => '日志详情',
+                'slug' => 'log.system.detail',
+                'description' => '日志详情',
+                'model' => $model,
+                'position' => 'module',
+                'created_at' => $created_at,
+                'updated_at' => $updated_at
+            ],
+            [
+                'name' => '日志过滤',
+                'slug' => 'log.system.filter',
+                'description' => '日志过滤',
+                'model' => $model,
+                'position' => 'module',
+                'created_at' => $created_at,
+                'updated_at' => $updated_at
+            ],
         ];
 
         Permission::insert($data);

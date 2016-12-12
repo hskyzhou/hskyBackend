@@ -33,7 +33,11 @@ class MenuPresenter{
 			$menuStr .= '<li class="dd-item dd3-item" data-id="'.$menu->id.'">';	
 			$menuStr .= '<div class="dd-handle dd3-handle"> </div>';
 			$menuStr .= '<div class="dd3-content">';
-			$menuStr .= '		<span>'.$menu->title.'</span>';
+			if($menu->status == getStatusClose()){
+				$menuStr .= '		<span class="font-grey-silver">'.$menu->title.'</span>';
+			}else{
+				$menuStr .= '		<span>'.$menu->title.'</span>';				
+			}
 			$menuStr .= '	<div class="pull-right">';
 			if($level == 1){
 		        $menuStr .= '		<a href="'.route('menu.create', ['id' => $menu->id]).'" class="addMenu" data-target="#ajax" data-toggle="modal"><span class="fa fa-plus"></span></a>';

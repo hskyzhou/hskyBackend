@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 /*后台功能*/
-$router->group(['namespace' => 'Backend', 'middleware' => ['menu.permission']], function($router){
+$router->group(['namespace' => 'Backend', 'middleware' => ['auth', 'menu.permission']], function($router){
 	/*权限路由*/
 	require(__DIR__ . '/backend/permissionRoute.php');
 	

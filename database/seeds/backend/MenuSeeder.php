@@ -124,6 +124,30 @@ class MenuSeeder extends Seeder
                 'icon' => 'fa fa-cloud',
                 'created_at' => $created_at,
                 'updated_at' => $updated_at,
+            ],
+            [
+                'title' => '日志详情',
+                'slug' => 'log.system.detail',
+                'route' => 'log-viewer::logs.show',
+                'uri' => '',
+                'status' => 1,
+                'desc' => '日志详情',
+                'sort' => 0,
+                'icon' => 'fa fa-cloud',
+                'created_at' => $created_at,
+                'updated_at' => $updated_at,
+            ],
+            [
+                'title' => '日志过滤',
+                'slug' => 'log.system.filter',
+                'route' => 'log-viewer::logs.filter',
+                'uri' => '',
+                'status' => 1,
+                'desc' => '日志过滤',
+                'sort' => 0,
+                'icon' => 'fa fa-cloud',
+                'created_at' => $created_at,
+                'updated_at' => $updated_at,
             ]
         ];
 
