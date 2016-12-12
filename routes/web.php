@@ -29,3 +29,6 @@ $router->group(['namespace' => 'Backend', 'middleware' => ['auth', 'menu.permiss
 	/*菜单*/
 	require(__DIR__ . '/backend/menuRoute.php');
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
