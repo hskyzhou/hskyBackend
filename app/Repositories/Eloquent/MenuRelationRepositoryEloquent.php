@@ -64,7 +64,7 @@ class MenuRelationRepositoryEloquent extends BaseRepository implements MenuRelat
 
         $results[] = $menuId;
         if(isset($datas[$parentMenuId])){
-            $results = array_merge($results, $this->dealPrePermissions($datas, $datas[$parentMenuId]));
+            $results = array_merge($results, $this->dealParentMenus($datas, $datas[$parentMenuId]));
         }else{
             $results[] = $parentMenuId;
             return $results;
