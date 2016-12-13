@@ -17,6 +17,10 @@ Route::get('/', function () {
 
 /*后台功能*/
 $router->group(['namespace' => 'Backend', 'middleware' => ['auth', 'menu.permission']], function($router){
+	$router->get('/', [
+		'uses' => 'UserController@index',
+		'as' => 'user.index'
+	]);
 	/*权限路由*/
 	require(__DIR__ . '/backend/permissionRoute.php');
 	
@@ -29,6 +33,5 @@ $router->group(['namespace' => 'Backend', 'middleware' => ['auth', 'menu.permiss
 	/*菜单*/
 	require(__DIR__ . '/backend/menuRoute.php');
 });
-Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Auth::routes();
