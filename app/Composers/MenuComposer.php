@@ -43,7 +43,9 @@
 					 	}
 					}
 				}else{
-					return true;
+					if(!$menuRelations->contains($item->id)){
+						return true;
+					}
 				}
 			});
 
