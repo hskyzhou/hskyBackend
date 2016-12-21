@@ -20,6 +20,7 @@ class CreateMenusTable extends Migration
             $table->string('slug', 30)->comment('访问菜单对应权限的slug');
             $table->string('route', 30)->comment("菜单对应的路由名称");
             $table->string('uri', 30)->comment("菜单的uri地址");
+            $table->string('high_uri')->comment("高亮的uri地址");
             $table->tinyInteger('status')->default(1)->comment('1-开启, 2-关闭');
             $table->string('desc')->comment('描述');
             $table->smallInteger('sort')->comment('排序');

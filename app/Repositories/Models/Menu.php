@@ -10,7 +10,7 @@ class Menu extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $fillable = ['title', 'slug', 'route', 'icon', 'status', 'desc'];
+    protected $fillable = ['title', 'slug', 'route', 'icon', 'status', 'desc', 'uri', 'high_uri'];
 
     public function parentMenu(){
     	return $this->belongsToMany(Menu::class, 'menu_relations', 'menu_id', 'menu_parent_id');

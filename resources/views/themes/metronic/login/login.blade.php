@@ -1,5 +1,8 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 
+=======
+>>>>>>> aff2dbfd4cb4887e4e3d459c8c1c0a4c9b43eb26
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
@@ -80,7 +83,11 @@
         </div>
         <!-- END LOGIN -->
         <!-- BEGIN COPYRIGHT -->
+<<<<<<< HEAD
         <div class="copyright"> 2016 &copy; </div>
+=======
+        <div class="copyright"> 2016 &copy;</div>
+>>>>>>> aff2dbfd4cb4887e4e3d459c8c1c0a4c9b43eb26
         <!-- END COPYRIGHT -->
         <!--[if lt IE 9]>
 <script src="../assets/global/plugins/respond.min.js"></script>
