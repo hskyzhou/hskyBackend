@@ -27,6 +27,11 @@ class MenuController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function index(){
+        // $u = "log-viewer::logs.list";
+        // $regex = '/^' . str_replace(preg_quote('*'), '[^.]*?', preg_quote("log-viewer::*", '/')) . '$/';
+        // $results = preg_match($regex, $u);
+        // dd($results);
+
         $results = $this->service->index();
         $manageMenus = $results['menus'];
         $menuRelations = $results['menuRelations'];

@@ -60,7 +60,7 @@ class MenuRelationRepositoryEloquent extends BaseRepository implements MenuRelat
     private function dealParentMenus($datas, $menu){
         $results = [];
         $menuId = $menu->menu_id;
-        $parentMenuId = $menu->menu_parent_id;
+        $parentMenuId = $menu->parent_menu_id;
 
         $results[] = $menuId;
         if(isset($datas[$parentMenuId])){

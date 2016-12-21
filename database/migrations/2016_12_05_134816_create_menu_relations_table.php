@@ -19,8 +19,8 @@ class CreateMenuRelationsTable extends Migration
             $table->integer('menu_id')->unsigned()->index();
             $table->foreign('menu_id')->references('id')->on('menus')->onDelete('cascade');
 
-            $table->integer('menu_parent_id')->unsigned()->index();
-            $table->foreign('menu_parent_id')->references('id')->on('menus')->onDelete('cascade');
+            $table->integer('parent_menu_id')->unsigned()->index();
+            $table->foreign('parent_menu_id')->references('id')->on('menus')->onDelete('cascade');
 
             $table->tinyInteger('sort')->unsigned()->comment("排序");
             $table->timestamps();
