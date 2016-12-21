@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 
 use App\Composers\MenuComposer;
 use App\Composers\ThemeComposer;
+use App\Composers\UserComposer;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -17,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
     {
         /*菜单composer*/
         view()->composer('themes.*.sidebar', MenuComposer::class);
+        view()->composer('themes.*.head', UserComposer::class);
         view()->composer('*', ThemeComposer::class);
 
         // \App\User::saving(function($query){
