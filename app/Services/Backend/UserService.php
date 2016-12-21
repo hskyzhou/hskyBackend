@@ -119,6 +119,7 @@ class UserService{
 		try {
 			$exception = DB::transaction(function(){
 				$data = request()->all();
+				$data['password'] = bcrypt($data['password']);
 
 				try {
 					$user = $this->userRepo->create($data);

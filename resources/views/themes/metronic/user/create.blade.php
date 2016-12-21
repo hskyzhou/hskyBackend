@@ -53,6 +53,15 @@
                       </div>
 
                       <div class="form-group form-md-line-input">
+                          <label class="col-md-2 control-label" for="form_control_1">密码</label>
+                          <div class="col-md-8">
+                              <input type="text" class="form-control" placeholder="" name="password">
+                              <div class="form-control-focus"> </div>
+                              <span class="help-block">Some help goes here...</span>
+                          </div>
+                      </div>
+
+                      <div class="form-group form-md-line-input">
                         <label class="col-md-2 control-label" for="form_control_1">状态</label>
                         <div class="col-md-8">
                           <div class="md-radio-inline">
