@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 /*后台功能*/
 $router->group(['namespace' => 'Backend', 'middleware' => ['auth', 'menu.permission']], function($router){
 	$router->get('/', [
