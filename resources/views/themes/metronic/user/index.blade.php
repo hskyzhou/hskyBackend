@@ -31,7 +31,7 @@
 @parent
 <h3 class="page-title">
   <i class="icon-settings font-dark"></i> 
-  <span class="caption-subject font-dark sbold uppercase">用户管理</span>
+  <span class="caption-subject font-dark sbold uppercase">{{trans('backend.user.manage')}}</span>
 </h3>
 <!-- END PAGE TITLE-->
 <!-- END PAGE HEADER-->
@@ -45,24 +45,24 @@
                 <div class="actions">
                     <div class="btn-group btn-group-devided">
                         <a href="{{route('user.create')}}" class="btn blue btn-outline btn-circle filter-add">
-                            <i class="fa fa-plus"></i>
-                            <span class="hidden-xs">添加</span>
+                            <i class="{{trans('button.icon.create')}}"></i>
+                            <span class="hidden-xs">{{trans('button.text.create')}}</span>
                         </a>
                     </div>
                     <div class="btn-group btn-group-devided" data-toggle="buttons">
                         <a data-url="{{route('user.delete.more')}}" class="btn red btn-outline btn-circle filter-delete-more" href="javascript:;">
-                            <i class="fa fa-times"></i>
-                            <span class="hidden-xs">删除</span>
+                            <i class="{{trans('button.icon.delete')}}"></i>
+                            <span class="hidden-xs">{{trans('button.text.delete')}}</span>
                         </a>
 
                         <a data-url="{{route('user.restore.more')}}" class="btn green btn-outline btn-circle filter-restore-more" href="javascript:;">
-                            <i class="fa fa-reply"></i>
-                            <span class="hidden-xs">恢复</span>
+                            <i class="{{trans('button.icon.restore')}}"></i>
+                            <span class="hidden-xs">{{trans('button.text.restore')}}</span>
                         </a>
 
                         <a data-url="{{route('user.destroy.more')}}" class="btn red btn-outline btn-circle filter-full-delete-more" href="javascript:;">
-                            <i class="fa fa-ban"></i>
-                            <span class="hidden-xs">彻底删除</span>
+                            <i class="{{trans('button.icon.destroy')}}"></i>
+                            <span class="hidden-xs">{{trans('button.text.destroy')}}</span>
                         </a>
                     </div>
                 </div>
@@ -70,26 +70,16 @@
             <div class="portlet-body">
                 <div class="table-container">
                     <div class="table-actions-wrapper">
-                        <span> </span>
-                        <select class="table-group-action-input form-control input-inline input-small input-sm">
-                            <option value="">Select...</option>
-                            <option value="Cancel">Cancel</option>
-                            <option value="Cancel">Hold</option>
-                            <option value="Cancel">On Hold</option>
-                            <option value="Close">Close</option>
-                        </select>
-                        <button class="btn btn-sm green table-group-action-submit">
-                            <i class="fa fa-check"></i> Submit</button>
                     </div>
                     <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax">
                         <thead>
                             <tr role="row" class="heading">
                                 <th width="2%">
                                     <input type="checkbox" class="group-checkable"> </th>
-                                <th width="5%">用户名称</th>
-                                <th width="5%">邮箱</th>
-                                <th width="5%">创建时间</th>
-                                <th width="5%">操作</th>
+                                <th width="5%">{{trans('label.user.name')}}</th>
+                                <th width="5%">{{trans('label.user.email')}}</th>
+                                <th width="5%">{{trans('label.created_at')}}</th>
+                                <th width="5%">{{trans('label.action')}}</th>
 
                             </tr>
                             <tr role="row" class="filter">
@@ -115,18 +105,18 @@
                 <div class="actions">
                     <div class="btn-group btn-group-devided" data-toggle="buttons">
                         <a data-url="{{route('user.delete.more')}}" class="btn red btn-outline btn-circle filter-delete-more" href="javascript:;">
-                            <i class="fa fa-times"></i>
-                            <span class="hidden-xs">删除</span>
+                            <i class="{{trans('button.icon.delete')}}"></i>
+                            <span class="hidden-xs">{{trans('button.text.delete')}}</span>
                         </a>
 
                         <a data-url="{{route('user.restore.more')}}" class="btn green btn-outline btn-circle filter-restore-more" href="javascript:;">
-                            <i class="fa fa-reply"></i>
-                            <span class="hidden-xs">恢复</span>
+                            <i class="{{trans('button.icon.restore')}}"></i>
+                            <span class="hidden-xs">{{trans('button.text.restore')}}</span>
                         </a>
 
                         <a data-url="{{route('user.destroy.more')}}" class="btn red btn-outline btn-circle filter-full-delete-more" href="javascript:;">
-                            <i class="fa fa-ban"></i>
-                            <span class="hidden-xs">彻底删除</span>
+                            <i class="{{trans('button.icon.destroy')}}"></i>
+                            <span class="hidden-xs">{{trans('button.text.destroy')}}</span>
                         </a>
                     </div>
                 </div>

@@ -31,7 +31,7 @@
 @parent
 <h3 class="page-title">
   <i class="icon-settings font-dark"></i> 
-  <span class="caption-subject font-dark sbold uppercase">权限管理</span>
+  <span class="caption-subject font-dark sbold uppercase">{{trans('backend.permission.manage')}}</span>
 </h3>
 <!-- END PAGE TITLE-->
 <!-- END PAGE HEADER-->
@@ -45,26 +45,26 @@
                 <div class="actions">
                     <div class="btn-group">
                       <a href="{{route('permission.create')}}" class="btn blue btn-outline btn-circle filter-add">
-                          <i class="fa fa-plus"></i>
-                          <span class="hidden-xs">添加</span>
+                          <i class="{{trans('button.icon.create')}}"></i>
+                          <span class="hidden-xs">{{trans('button.text.create')}}</span>
                       </a>
                     </div>
                     <div class="btn-group btn-group-devided" data-toggle="buttons">
                         
 
                         <a data-url="{{route('permission.delete.more')}}" class="btn red btn-outline btn-circle filter-delete-more" href="javascript:;">
-                            <i class="fa fa-times"></i>
-                            <span class="hidden-xs">删除</span>
+                            <i class="{{trans('button.icon.delete')}}"></i>
+                            <span class="hidden-xs">{{trans('button.text.delete')}}</span>
                         </a>
 
                         <a data-url="{{route('permission.restore.more')}}" class="btn green btn-outline btn-circle filter-restore-more" href="javascript:;">
-                            <i class="fa fa-reply"></i>
-                            <span class="hidden-xs">恢复</span>
+                            <i class="{{trans('button.icon.restore')}}"></i>
+                            <span class="hidden-xs">{{trans('button.text.restore')}}</span>
                         </a>
 
                         <a data-url="{{route('permission.destroy.more')}}" class="btn red btn-outline btn-circle filter-full-delete-more" href="javascript:;">
-                            <i class="fa fa-ban"></i>
-                            <span class="hidden-xs">彻底删除</span>
+                            <i class="{{trans('button.icon.destroy')}}"></i>
+                            <span class="hidden-xs">{{trans('button.text.destroy')}}</span>
                         </a>
                     </div>
                 </div>
@@ -88,12 +88,12 @@
                             <tr role="row" class="heading">
                                 <th width="2%">
                                     <input type="checkbox" class="group-checkable"> </th>
-                                <th width="5%">权限名称</th>
-                                <th width="5%">slug</th>
-                                <th width="5%">描述</th>
-                                <th width="5%">位置</th>
-                                <th width="5%">创建时间</th>
-                                <th width="5%">操作</th>
+                                <th width="5%">{{trans('label.permission.name')}}</th>
+                                <th width="5%">{{trans('label.permission.slug')}}</th>
+                                <th width="5%">{{trans('label.permission.description')}}</th>
+                                <th width="5%">{{trans('label.permission.position')}}</th>
+                                <th width="5%">{{trans('label.created_at')}}</th>
+                                <th width="5%">{{trans('label.action')}}</th>
 
                             </tr>
                             <tr role="row" class="filter">
@@ -125,18 +125,18 @@
                 <div class="actions">
                     <div class="btn-group btn-group-devided" data-toggle="buttons">
                         <a data-url="{{route('permission.delete.more')}}" class="btn red btn-outline btn-circle filter-delete-more" href="javascript:;">
-                            <i class="fa fa-times"></i>
-                            <span class="hidden-xs">删除</span>
+                            <i class="{{trans('button.icon.delete')}}"></i>
+                            <span class="hidden-xs">{{trans('button.text.delete')}}</span>
                         </a>
 
                         <a data-url="{{route('permission.restore.more')}}" class="btn green btn-outline btn-circle filter-restore-more" href="javascript:;">
-                            <i class="fa fa-reply"></i>
-                            <span class="hidden-xs">恢复</span>
+                            <i class="{{trans('button.icon.restore')}}"></i>
+                            <span class="hidden-xs">{{trans('button.text.restore')}}</span>
                         </a>
 
                         <a data-url="{{route('permission.destroy.more')}}" class="btn red btn-outline btn-circle filter-full-delete-more" href="javascript:;">
-                            <i class="fa fa-ban"></i>
-                            <span class="hidden-xs">彻底删除</span>
+                            <i class="{{trans('button.icon.destroy')}}"></i>
+                            <span class="hidden-xs">{{trans('button.text.destroy')}}</span>
                         </a>
                     </div>
                 </div>

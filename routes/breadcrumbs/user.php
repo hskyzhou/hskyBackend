@@ -1,18 +1,18 @@
 <?php 
 
 Breadcrumbs::register('user.index', function($breadcrumbs) {
-    $breadcrumbs->push('首页', url('/'));
-    $breadcrumbs->push('用户列表');
+    $breadcrumbs->push(trans('backend.index'), url('/'));
+    $breadcrumbs->push(trans('backend.user.list'));
 });
 
 Breadcrumbs::register('user.create', function($breadcrumbs) {
-    $breadcrumbs->push('首页', url('/'));
-    $breadcrumbs->push('用户列表', route('user.index'));
-    $breadcrumbs->push('添加用户');
+    $breadcrumbs->push(trans('backend.index'), url('/'));
+    $breadcrumbs->push(trans('backend.user.list'), route('user.index'));
+    $breadcrumbs->push(trans('backend.user.create'));
 });
 
 Breadcrumbs::register('user.edit', function($breadcrumbs) {
-    $breadcrumbs->push('首页', url('/'));
-    $breadcrumbs->push('用户列表', route('user.index'));
-    $breadcrumbs->push('修改用户');
+    $breadcrumbs->push(trans('backend.index'), url('/'));
+    $breadcrumbs->push(trans('backend.user.list'), route('user.index'));
+    $breadcrumbs->push(trans('backend.user.update'));
 });
