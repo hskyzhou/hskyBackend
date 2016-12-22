@@ -17,14 +17,22 @@ return [
 	],
 
 	'permission' => [
-		'name' => '名称',
-		'slug' => 'slug',
+		'name' => '权限名称',
+		'slug' => '权限标识',
 		'description' => '描述',
 		'position' => '位置',
 		'module' => '模块',
+		'status' => '状态',
+		'permission' => '权限',
+		'model' => '模型',
 	],
 
 	'role' => [
-		'name' => '名称'
+		'name' => '角色名称',
+		'slug' => '角色标示',
+		'description' => '描述',
+		'level' => '层级',
+		'status' => '状态',
+		'permission' => '权限'
 	],
 ];

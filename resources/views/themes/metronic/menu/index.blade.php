@@ -25,7 +25,7 @@
 @endsection
 
 @section('content')
-<h3 class="page-title">菜单管理</h3>
+<h3 class="page-title">{{trans('backend.menu.manage')}}</h3>
 <div class="row">
     <div class="col-md-6">
         <div class="portlet light bordered">
