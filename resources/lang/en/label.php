@@ -22,9 +22,17 @@ return [
 		'description' => 'description',
 		'position' => 'position',
 		'module' => 'module',
+		'status' => 'status',
+		'permission' => 'permission',
+		'model' => 'model',
 	],
 
 	'role' => [
-		'name' => 'name'
+		'name' => 'name',
+		'slug' => 'slug',
+		'description' => 'description',
+		'level' => 'level',
+		'status' => 'status',
+		'permission' => 'permission'
 	],
 ];

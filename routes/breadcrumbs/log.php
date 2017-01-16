@@ -1,24 +1,24 @@
 <?php 
 
 Breadcrumbs::register('log-viewer::dashboard', function($breadcrumbs) {
-    $breadcrumbs->push('首页', url('/'));
-    $breadcrumbs->push('日志总览');
+    $breadcrumbs->push(trans('backend.index'), url('/'));
+    $breadcrumbs->push(trans('backend.log.dashboard'));
 });
 
 Breadcrumbs::register('log-viewer::logs.list', function($breadcrumbs) {
-    $breadcrumbs->push('首页', url('/'));
-    $breadcrumbs->push('日志列表');
+    $breadcrumbs->push(trans('backend.index'), url('/'));
+    $breadcrumbs->push(trans('backend.log.list'));
 });
 
 Breadcrumbs::register('log-viewer::logs.show', function($breadcrumbs) {
-    $breadcrumbs->push('首页', url('/'));
-    $breadcrumbs->push('日志列表', route('log-viewer::logs.list'));
-    $breadcrumbs->push('日志详情');
+    $breadcrumbs->push(trans('backend.index'), url('/'));
+    $breadcrumbs->push(trans('backend.log.list'), route('log-viewer::logs.list'));
+    $breadcrumbs->push(trans('backend.log.detail'));
 });
 
 Breadcrumbs::register('log-viewer::logs.filter', function($breadcrumbs) {
-    $breadcrumbs->push('首页', url('/'));
-    $breadcrumbs->push('日志列表', route('log-viewer::logs.list'));
-    $breadcrumbs->push('日志过滤');
+    $breadcrumbs->push(trans('backend.index'), url('/'));
+    $breadcrumbs->push(trans('backend.log.list'), route('log-viewer::logs.list'));
+    $breadcrumbs->push(trans('backend.log.filter'));
 });
 
