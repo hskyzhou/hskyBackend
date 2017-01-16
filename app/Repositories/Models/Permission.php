@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Models;
 
-use GeniusTS\Roles\Models\Permission as GeniusTSPermission;
+use HskyZhou\Roles\Models\Permission as GeniusTSPermission;
 
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;

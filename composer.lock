@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d5cbe6c9c015ae31928ebd32668a66b7",
-    "content-hash": "286b0fe891240a80937aab868c5cf552",
+    "hash": "b539caa00cda654e04158c1829565bc0",
+    "content-hash": "e421eb28d538dca6065f1caba3a34b4d",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -446,6 +446,51 @@
             "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
             "homepage": "https://github.com/dompdf/dompdf",
             "time": "2016-05-11 00:36:29"
+        },
+        {
+            "name": "hskyzhou/roles",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hskyzhou/roles.git",
+                "reference": "f6884fd23e91dffeca6600dd29088db5014abc7b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hskyzhou/roles/zipball/f6884fd23e91dffeca6600dd29088db5014abc7b",
+                "reference": "f6884fd23e91dffeca6600dd29088db5014abc7b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.3",
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "HskyZhou\\Roles\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "hsky zhou",
+                    "email": "xezw211@gmail.com"
+                }
+            ],
+            "description": "Powerful package for handling roles and permissions in Laravel 5.3",
+            "keywords": [
+                "acl",
+                "auth",
+                "illuminate",
+                "laravel",
+                "permissions",
+                "roles"
+            ],
+            "time": "2017-01-16 09:36:48"
         },
         {
             "name": "jakub-onderka/php-console-color",

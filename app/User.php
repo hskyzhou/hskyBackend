@@ -5,8 +5,8 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-use GeniusTS\Roles\Traits\HasRoleAndPermission;
-use GeniusTS\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
+use HskyZhou\Roles\Traits\HasRoleAndPermission;
+use HskyZhou\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
 
 class User extends Authenticatable implements HasRoleAndPermissionContract
 {
